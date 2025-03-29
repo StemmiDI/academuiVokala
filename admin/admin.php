@@ -10,26 +10,26 @@ include "../components/header-admin.php"; ?>
       <div class="top-row">
         <div class="top-row-container">
           <article class="column-item">
-            <a href="admin-course.php" class="card">Курсы вокала</a>
+            <a href="admin/admin-course.php" class="card">Курсы вокала</a>
           </article>
           <article class="column-item">
-            <a href="admin-reviews.php" class="card">Отзывы</a>
+            <a href="admin/admin-reviews.php" class="card">Отзывы</a>
           </article>
           <article class="column-item">
-            <a href="admin-rasp.php" class="card">Расписание</a>
+            <a href="admin/admin-rasp.php" class="card">Расписание</a>
           </article>
         </div>
       </div>
       <div class="top-row">
         <div class="top-row-container">
           <article class="column-item">
-            <a href="admin-subscription.php" class="card">Абонемент</a>
+            <a href="admin/admin-subscription.php" class="card">Абонемент</a>
           </article>
           <article class="column-item">
-            <a href="admin-tach.php" class="card">Преподаватели</a>
+            <a href="admin/admin-tach.php" class="card">Преподаватели</a>
           </article>
           <article class="column-item">
-            <a href="admin-free-lesson.php" class="card">Бесплатное занятие</a>
+            <a href="admin/admin-free-lesson.php" class="card">Бесплатное занятие</a>
           </article>
 
         </div>
