@@ -7,91 +7,6 @@ $stmt = $pdo->prepare("SELECT * FROM courses");
 $stmt->execute();
 $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  header('Content-Type: application/json');
-
-  if (isset($_POST['action'])) {
-    $action = $_POST['action'];
-
-    if ($action === 'add') {
-      $name_course = trim($_POST['name_course'] ?? '');
-      $description = trim($_POST['description'] ?? '');
-
-      if (!$name_course || !$description) {
-        echo json_encode(['status' => 'error', 'message' => 'Заполните все поля!']);
-        exit();
-      }
-
-      // Загрузка изображения
-      $icon_name = 'default.png';
-      if (!empty($_FILES['icon']['name'])) {
-        $upload_dir = '../uploads/';
-        $icon_name = time() . '_' . basename($_FILES['icon']['name']);
-        move_uploaded_file($_FILES['icon']['tmp_name'], $upload_dir . $icon_name);
-      }
-
-      $stmt = $pdo->prepare("INSERT INTO courses (name_course, description, icon) VALUES (?, ?, ?)");
-      $stmt->execute([$name_course, $description, $icon_name]);
-
-      echo json_encode(['status' => 'success']);
-      exit();
-    }
-
-    if ($action === 'edit') {
-      $id = $_POST['id'] ?? 0;
-      $name_course = trim($_POST['name_course'] ?? '');
-      $description = trim($_POST['description'] ?? '');
-
-      if (!$id || !$name_course || !$description) {
-        echo json_encode(['status' => 'error', 'message' => 'Заполните все поля!']);
-        exit();
-      }
-
-      // Проверка, загружено ли новое изображение
-      if (!empty($_FILES['icon']['name'])) {
-        $upload_dir = '../uploads/';
-        $icon_name = time() . '_' . basename($_FILES['icon']['name']);
-        move_uploaded_file($_FILES['icon']['tmp_name'], $upload_dir . $icon_name);
-
-        // Обновляем курс с новой иконкой
-        $stmt = $pdo->prepare("UPDATE courses SET name_course = ?, description = ?, icon = ? WHERE id = ?");
-        $stmt->execute([$name_course, $description, $icon_name, $id]);
-      } else {
-        // Обновляем курс без изменения иконки
-        $stmt = $pdo->prepare("UPDATE courses SET name_course = ?, description = ? WHERE id = ?");
-        $stmt->execute([$name_course, $description, $id]);
-      }
-
-      echo json_encode(['status' => 'success']);
-      exit();
-    }
-
-    if ($action === 'delete') {
-      $id = $_POST['id'] ?? 0;
-
-      if (!$id) {
-        echo json_encode(['status' => 'error', 'message' => 'Некорректный ID!']);
-        exit();
-      }
-
-      // Получаем текущий icon
-      $stmt = $pdo->prepare("SELECT icon FROM courses WHERE id = ?");
-      $stmt->execute([$id]);
-      $course = $stmt->fetch(PDO::FETCH_ASSOC);
-
-      // Удаляем файл иконки (кроме иконки по умолчанию)
-      if ($course && $course['icon'] !== 'default.png' && file_exists("../uploads/" . $course['icon'])) {
-        unlink("../uploads/" . $course['icon']);
-      }
-
-      $stmt = $pdo->prepare("DELETE FROM courses WHERE id = ?");
-      $stmt->execute([$id]);
-
-      echo json_encode(['status' => 'success']);
-      exit();
-    }
-  }
-}
 ?>
 
 
@@ -137,10 +52,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <!-- Форма для добавления нового курса -->
           <div class="add-form">
             <h2>Добавить курс</h2>
-            <input type="text" id="name_course" placeholder="Название курса" required>
-            <input type="text" id="description" placeholder="Описание курса" required>
-            <input type="file" id="icon" accept="image/*">
-            <button onclick="addCourse()">Добавить</button>
+            <form id="addCourseForm" enctype="multipart/form-data">
+              <input type="text" id="name_course" name="name_course" placeholder="Название курса" required>
+              <input type="text" id="description" name="description" placeholder="Описание курса" required>
+              <input type="file" id="icon" name="icon" accept="image/*">
+              <button type="submit">Добавить</button>
+            </form>
           </div>
         </div>
       </section>
@@ -194,32 +111,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 
   // Добавление нового курса
-  function addCourse() {
-    var name = document.getElementById('name_course').value;
-    var description = document.getElementById('description').value;
-    var icon = document.getElementById('icon').files[0];
+  document.getElementById('addCourseForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Предотвращаем перезагрузку страницы
 
-    var formData = new FormData();
+    let formData = new FormData(this);
     formData.append('action', 'add');
-    formData.append('name_course', name);
-    formData.append('description', description);
-    if (icon) {
-      formData.append('icon', icon);
-    }
 
-    fetch('', {
+    fetch("/admin/api/add-course.php", {
         method: 'POST',
         body: formData
-      }).then(response => response.json())
+      })
+      .then(response => response.json()) // Преобразуем в JSON
       .then(data => {
         if (data.status === 'success') {
-          closeModal();
-          location.reload();
+          // Создаем новую строку в таблице
+          let newRow = document.createElement('tr');
+          newRow.id = `course_${data.id}`; // Используем ID, который пришел с сервера
+          newRow.innerHTML = `
+                <td>${data.name_course}</td>
+                <td>${data.description}</td>
+                <td><img src="../../uploads/${data.icon}" alt="Иконка" width="50"></td>
+                <td>
+                    <button class="edit" onclick="showEditModal(${data.id})">Изменить</button>
+                    <button class="delete" onclick="showDeleteModal(${data.id})">Удалить</button>
+                </td>
+            `;
+
+          // Добавляем строку в таблицу
+          document.querySelector("#coursesTable tbody").appendChild(newRow);
+
+          // Очистка формы
+          document.getElementById('addCourseForm').reset();
+
+          setTimeout(() => {
+            alert('Курс успешно добавлен!');
+          }, 100);
         } else {
           alert(data.message);
         }
-      });
-  }
+      })
+      .catch(error => console.error('Ошибка:', error));
+  });
+
+
 
   // Редактирование курса
   function editCourse() {
@@ -233,19 +167,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     formData.append('name_course', name);
     formData.append('description', description);
 
-    fetch('', {
+    fetch("/admin/api/add-course.php", {
         method: 'POST',
         body: formData
-      }).then(response => response.json())
+      })
+      .then(response => response.json())
       .then(data => {
         if (data.status === 'success') {
-          closeModal();
-          location.reload();
+          // Находим строку курса в таблице
+          let row = document.getElementById(`course_${id}`);
+          if (row) {
+            row.children[0].textContent = name; // Обновляем название курса
+            row.children[1].textContent = description; // Обновляем описание
+          }
+
+          closeModal(); // Закрываем модальное окно
         } else {
           alert(data.message);
         }
-      });
+      })
+      .catch(error => console.error("Ошибка:", error));
   }
+
 
   // Удаление курса
   function deleteCourse() {
@@ -255,7 +198,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     formData.append('action', 'delete');
     formData.append('id', id);
 
-    fetch('', {
+    fetch("/admin/api/add-course.php", {
         method: 'POST',
         body: formData
       }).then(response => response.json())
