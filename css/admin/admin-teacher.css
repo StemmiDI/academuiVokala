@@ -1,0 +1,223 @@
+.teachers-section {
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 1513px;
+  padding: 80px 0 57px;
+}
+
+.teachers-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-height: 1513px;
+  width: 100%;
+  overflow: hidden;
+  padding: 10px 160px 56px;
+}
+
+.teachers-background-image {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  min-height: 1513px;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.section-teachers-title {
+  position: relative;
+  color: #0d0c10;
+  letter-spacing: -0.48px;
+  text-align: center;
+  align-self: center;
+  font: 600 48px/58px Bricolage Grotesque, -apple-system, Roboto, Helvetica, sans-serif;
+}
+
+.section-teachers-description {
+  position: relative;
+  color: #0d0c10;
+  text-align: center;
+  align-self: center;
+  font: 400 20px Inter, sans-serif;
+}
+
+.teachers-grid {
+  position: relative;
+  margin-top: 113px;
+  width: 100%;
+}
+
+.teachers-row {
+  gap: 80px;
+  display: flex;
+}
+
+.teacher-column {
+  display: flex;
+  line-height: normal;
+}
+
+.teacher-column:first-child {
+  margin-left: 0;
+}
+
+.teacher-card {
+  border-radius: 24px;
+  background-color: #fff;
+  position: relative;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  font-family: Inter, sans-serif;
+  color: #0d0c10;
+  width: 100%;
+  padding: 30px 30px;
+}
+
+.teacher-image {
+  aspect-ratio: 1.29;
+  object-fit: contain;
+  object-position: center;
+  width: 100%;
+}
+
+.teacher-name {
+  align-self: start;
+  margin-top: 35px;
+  font: 600 24px/1 Bricolage Grotesque, -apple-system, Roboto, Helvetica, sans-serif;
+}
+
+.teacher-position {
+  font-size: 14px;
+  font-weight: 400;
+  align-self: start;
+}
+.teachers-action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 18px;
+}
+
+.teachers-edit-btn {
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 1);
+  box-shadow: 0px 1px 1px rgba(13, 12, 16, 0.04);
+  padding: 15px 40px;
+  font: 500 12px/2 Inter, sans-serif;
+  cursor: pointer;
+}
+
+.teachers-delete-btn {
+  border-radius: 8px;
+  background-color: rgba(255, 194, 185, 1);
+  box-shadow: 0px 1px 1px rgba(13, 12, 16, 0.04);
+  padding: 15px 40px;
+  font: 500 12px/2 Inter, sans-serif;
+  cursor: pointer;
+}
+.add-teacher-form {
+  border-radius: 20px;
+  background-color: #fff;
+  box-shadow: 0 12px 56px -12px rgba(69, 65, 113, 0.16);
+  padding: 30px 55px 47px;
+  margin: 80px 0 -57px;
+  width: 100%;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-title {
+  color: #0d0c10;
+  text-align: center;
+  font: 600 24px/1 Bricolage Grotesque, -apple-system, Roboto, Helvetica, sans-serif;
+}
+
+.form-input {
+  border-radius: 12px;
+  background-color: #fff;
+  box-shadow: 0 0 0 1px rgba(13, 12, 16, 0.04);
+  padding: 14px;
+  border: 1px solid #ccc;
+  font: 400 14px Inter, sans-serif;
+  color: #878493;
+}
+
+.submit-btn {
+  border-radius: 8px;
+  background-color: #c6ffad;
+  box-shadow: 0 1px 1px rgba(13, 12, 16, 0.04);
+  padding: 19px 70px;
+  font: 500 12px/2 Inter, sans-serif;
+  color: #0d0c10;
+}
+h1 {
+  font-size: 40px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+@media (max-width: 991px) {
+  .teachers-section {
+    padding-top: 100px;
+  }
+
+  .teachers-container {
+    max-width: 100%;
+    padding: 0 20px;
+  }
+
+  .section-title {
+    max-width: 100%;
+    font-size: 40px;
+    line-height: 54px;
+  }
+
+  .section-description {
+    max-width: 100%;
+    margin-top: 40px;
+  }
+
+  .teachers-grid {
+    max-width: 100%;
+    margin-top: 40px;
+  }
+
+  .teachers-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .teacher-column {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .teacher-card {
+    margin-top: 40px;
+    padding: 0 20px;
+  }
+
+  .teacher-position {
+    margin-top: 40px;
+  }
+
+  .details-button {
+    margin-top: 40px;
+    white-space: initial;
+    padding: 0 20px;
+  }
+}

@@ -1,0 +1,218 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+* {
+  box-sizing: border-box;
+}
+.registration-container {
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  /* overflow: hidden; */
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  /* padding: 14px 70px 420px; */
+}
+
+.registration-wrapper {
+  margin-left: 13px;
+  width: 100%;
+  max-width: 1172px;
+}
+
+.registration-content {
+  gap: 20px;
+  display: flex;
+}
+
+.form-column {
+  display: flex;
+  flex-direction: column;
+  line-height: normal;
+  width: 26%;
+  margin-left: 0;
+}
+
+.form-wrapper {
+  /* display: flex; */
+  width: 100%;
+  /* flex-direction: column; */
+  align-self: stretch;
+  align-items: start;
+  color: rgb(13, 12, 16);
+  margin: auto 0;
+  font: 500 16px Inter, sans-serif;
+}
+
+.registration-title {
+  margin-bottom: 20px;
+  letter-spacing: -0.32px;
+  font: 600 32px/1 "Bricolage Grotesque", -apple-system, Roboto, Helvetica, sans-serif;
+}
+
+.form-label {
+  line-height: 2;
+  margin: 30px 0 0 12px;
+}
+
+.form-input {
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(13, 12, 16, 0.04);
+  align-self: stretch;
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: rgb(135, 132, 147);
+  font-weight: 400;
+  padding: 14px 13px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+.consent-wrapper {
+  display: flex;
+  margin-top: 18px;
+  gap: 10px;
+  font-size: 16px;
+  line-height: 2;
+}
+/* Стили для обертки */
+.consent-wrapper {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: #333;
+  margin-top: 10px;
+}
+
+/* Скрываем стандартный чекбокс */
+.consent-wrapper input[type="checkbox"] {
+  display: none;
+}
+
+/* Стили для кастомного чекбокса */
+.checkbox-custom {
+  position: relative;
+  border-radius: 3px;
+  border: 1px solid #000;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(13, 12, 16, 0.04);
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+}
+
+.consent-wrapper input[type="checkbox"]:checked + .checkbox-custom {
+  background: #000;
+}
+
+.consent-wrapper input[type="checkbox"]:checked + .checkbox-custom::before {
+  content: "";
+  position: absolute;
+  top: 1px;
+  left: 4px;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+
+/* Стили для метки */
+.consent-wrapper label {
+  cursor: pointer;
+  user-select: none;
+  font-size: 16px;
+}
+
+.submit-button {
+  border-radius: 8px;
+  background: rgb(13, 12, 16);
+  align-self: stretch;
+  margin-top: 19px;
+  color: #fff;
+  font-size: 16px;
+  text-align: center;
+  line-height: 2;
+  padding: 13px 70px;
+  border: none;
+  cursor: pointer;
+}
+
+.image-column {
+  display: flex;
+  flex-direction: column;
+  line-height: normal;
+  width: 74%;
+  margin-left: 20px;
+}
+
+.registration-image {
+  aspect-ratio: 1.78;
+  object-fit: contain;
+  object-position: center;
+  width: 100%;
+  flex-grow: 1;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+@media (max-width: 991px) {
+  .registration-container {
+    padding: 100px 20px;
+  }
+
+  .registration-wrapper {
+    max-width: 100%;
+  }
+
+  .registration-content {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .form-column {
+    width: 100%;
+  }
+
+  .form-wrapper {
+    margin-top: 40px;
+  }
+
+  .form-label {
+    margin-left: 10px;
+  }
+
+  .form-input {
+    padding-right: 20px;
+  }
+
+  .consent-wrapper {
+    margin-left: 4px;
+  }
+
+  .submit-button {
+    padding: 0 20px;
+  }
+
+  .image-column {
+    width: 100%;
+  }
+
+  .registration-image {
+    max-width: 100%;
+    margin-top: 40px;
+  }
+}

@@ -1,0 +1,37 @@
+<template>
+  <div class="calendar">
+    <div class="header">
+      <button @click="prevMonth">◀</button>
+      <span>{{ displayedYear }} - {{ displayedMonth + 1 }}</span>
+      <button @click="nextMonth">▶</button>
+    </div>
+    <div class="days">
+      <div v-for="day in calendarDays" :key="day" class="day" :class="{ today: isToday(day) }">{{ day || '' }}</div>
+    </div>
+  </div>
+</template>
+<script src="ertr.js"></script>
+<style>
+  .calendar {
+    width: 300px;
+    text-align: center;
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+  }
+  .days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+  }
+  .day {
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+  .today {
+    background: red;
+    color: white;
+    font-weight: bold;
+  }
+</style>

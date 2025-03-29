@@ -1,0 +1,381 @@
+/* Base styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+  line-height: 1.5;
+  color: rgba(13, 12, 16, 1);
+}
+
+/* Main section styles */
+.pricing-section {
+  border-radius: 0;
+}
+
+.pricing-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  padding: 137px 80px;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+}
+
+.background-image {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.content-wrapper-card {
+  position: relative;
+  display: flex;
+  margin-bottom: -29px;
+  width: 100%;
+  max-width: 1185px;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* Typography */
+.pricing-title-ad-s {
+  color: rgba(13, 12, 16, 1);
+  font-size: 40px;
+  font-family: "Bricolage Grotesque", -apple-system, Roboto, Helvetica, sans-serif;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.4px;
+  text-align: center;
+  align-self: center;
+}
+
+/* Pricing cards section */
+
+.pricing-row {
+  display: flex;
+  gap: 20px;
+}
+
+/* Individual pricing card */
+.pricing-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  line-height: normal;
+  width: 33%;
+}
+
+.card-wrapper {
+  border-radius: 24px;
+  background-color: rgba(255, 255, 255, 1);
+  box-shadow: 0px 20px 56px rgba(69, 65, 113, 0.16);
+  display: flex;
+  flex-grow: 1;
+  padding: 17px 8px;
+  flex-direction: column;
+  align-items: stretch;
+  font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 14px;
+  color: rgba(13, 12, 16, 1);
+  font-weight: 400;
+  text-align: center;
+  line-height: 2;
+  justify-content: center;
+  width: 100%;
+}
+
+.card-content {
+  border-radius: 16px;
+  background-color: rgba(244, 243, 248, 1);
+  display: flex;
+  width: 100%;
+  padding: 36px 39px;
+  flex-direction: column;
+  overflow: hidden;
+  align-items: center;
+}
+
+.card-title {
+  font-size: 32px;
+  font-family: "Bricolage Grotesque", -apple-system, Roboto, Helvetica, sans-serif;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.32px;
+}
+
+.price-tag {
+  font-size: 32px;
+  font-family: "Bricolage Grotesque", -apple-system, Roboto, Helvetica, sans-serif;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.32px;
+  margin-top: 43px;
+}
+
+.price-value {
+  font-weight: 700;
+  font-size: 48px;
+  color: rgba(110, 25, 196, 1);
+}
+
+.price-currency {
+  font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+}
+
+.price-dot {
+  font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 24px;
+}
+
+.lesson-type {
+  margin-top: 50px;
+}
+
+.age-level {
+  margin-top: 17px;
+}
+
+.lessons-count {
+  margin-top: 18px;
+}
+
+.frequency {
+  margin-top: 21px;
+}
+
+.action-buttons {
+  align-self: stretch;
+  display: flex;
+  margin-top: 42px;
+  align-items: stretch;
+  gap: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  line-height: 2;
+  justify-content: space-between;
+}
+
+.edit-button {
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 1);
+  box-shadow: 0px 1px 1px rgba(13, 12, 16, 0.04);
+  padding: 14px 32px;
+  overflow: hidden;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: inherit;
+}
+
+.delete-button {
+  border-radius: 8px;
+  background-color: rgba(255, 194, 185, 1);
+  box-shadow: 0px 1px 1px rgba(13, 12, 16, 0.04);
+  padding: 13px 36px;
+  overflow: hidden;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: inherit;
+}
+
+/* Add subscription form */
+.add-subscription-form {
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 1);
+  box-shadow: 0px 12px 56px -12px rgba(69, 65, 113, 0.16);
+  display: flex;
+  margin-top: 71px;
+  width: 100%;
+  padding: 39px 63px;
+  flex-direction: column;
+  overflow: hidden;
+  align-items: stretch;
+  font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 14px;
+  color: rgba(135, 132, 147, 1);
+  font-weight: 400;
+}
+
+.form-title {
+  color: rgba(13, 12, 16, 1);
+  font-size: 24px;
+  font-family: "Bricolage Grotesque", -apple-system, Roboto, Helvetica, sans-serif;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.24px;
+  text-align: center;
+  align-self: center;
+  margin-left: 13px;
+}
+
+.form-row {
+  display: flex;
+  margin-top: 30px;
+  align-items: stretch;
+  gap: 20px;
+  white-space: nowrap;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.form-row:last-child {
+  margin-top: 21px;
+}
+
+.form-input {
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 1);
+  box-shadow: 0px 0px 0px 1px rgba(13, 12, 16, 0.04);
+  border: 1px solid rgba(204, 204, 204, 1);
+  padding: 13px;
+  overflow: hidden;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.add-button {
+  border-radius: 8px;
+  background-color: rgba(198, 255, 173, 1);
+  box-shadow: 0px 1px 1px rgba(13, 12, 16, 0.04);
+  padding: 14px 70px;
+  overflow: hidden;
+  font-size: 12px;
+  color: rgba(13, 12, 16, 1);
+  font-weight: 500;
+  white-space: nowrap;
+  text-align: center;
+  line-height: 2;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* Specific card styles */
+.pricing-card:nth-child(2) .price-tag {
+  margin-top: 36px;
+}
+
+.pricing-card:nth-child(2) .lessons-count {
+  margin-top: 17px;
+}
+
+.pricing-card:nth-child(2) .frequency {
+  margin-top: 20px;
+}
+
+.pricing-card:nth-child(3) .card-content {
+  padding: 37px 39px;
+}
+
+.pricing-card:nth-child(3) .price-tag {
+  margin-top: 36px;
+}
+
+.pricing-card:nth-child(3) .lessons-count {
+  margin-top: 17px;
+}
+
+.pricing-card:nth-child(3) .frequency {
+  margin-top: 20px;
+}
+
+/* Responsive styles */
+@media (max-width: 991px) {
+  .pricing-container {
+    max-width: 100%;
+    padding: 100px 20px;
+  }
+
+  .content-wrapper {
+    max-width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .pricing-title-ad-s {
+    max-width: 100%;
+  }
+
+  .pricing-cards {
+    max-width: 100%;
+    margin-top: 40px;
+  }
+
+  .pricing-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .pricing-card {
+    width: 100%;
+  }
+
+  .card-wrapper {
+    margin-top: 40px;
+  }
+
+  .card-content {
+    padding: 36px 20px;
+  }
+
+  .price-tag {
+    margin-top: 40px;
+  }
+
+  .lesson-type {
+    margin-top: 40px;
+  }
+
+  .action-buttons {
+    margin-top: 40px;
+    white-space: initial;
+  }
+
+  .edit-button {
+    padding: 14px 20px;
+    white-space: initial;
+  }
+
+  .delete-button {
+    padding: 13px 20px;
+    white-space: initial;
+  }
+
+  .add-subscription-form {
+    max-width: 100%;
+    padding: 39px 20px;
+    margin-top: 40px;
+  }
+
+  .form-row {
+    max-width: 100%;
+    white-space: initial;
+  }
+
+  .form-input {
+    padding-right: 20px;
+    white-space: initial;
+  }
+
+  .add-button {
+    padding: 14px 20px;
+    white-space: initial;
+  }
+}

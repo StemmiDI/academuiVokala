@@ -1,0 +1,190 @@
+<style>
+  .faq-section {
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .faq-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 600px;
+    width: 100%;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    padding: 274px 80px;
+    position: relative;
+  }
+
+  .background-image {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .content-wrapper {
+    position: relative;
+    display: flex;
+    width: 620px;
+    max-width: 100%;
+    flex-direction: column;
+    margin-bottom: -61px;
+  }
+
+  .section-title {
+    color: #0d0c10;
+    letter-spacing: -0.48px;
+    text-align: center;
+    align-self: center;
+    font: 600 48px/1.2 "Bricolage Grotesque", -apple-system, Roboto, Helvetica, sans-serif;
+  }
+
+  .faq-item {
+    display: flex;
+    gap: 20px;
+    color: #222;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    font: 500 14px/2 Inter, sans-serif;
+    margin-top: 42px;
+  }
+
+  .faq-item:first-of-type {
+    margin-top: 76px;
+  }
+
+  .faq-question {
+    align-self: start;
+    margin-top: 11px;
+  }
+
+  .toggle-icon {
+    aspect-ratio: 1;
+    object-fit: contain;
+    object-position: center;
+    width: 24px;
+  }
+
+  .double-question {
+    align-self: start;
+    display: flex;
+    margin-top: 11px;
+    flex-direction: column;
+    color: #222;
+    font: 500 14px/2 Inter, sans-serif;
+  }
+
+  .question-secondary {
+    margin-top: 53px;
+  }
+
+  .toggle-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .toggle-icon-secondary {
+    margin-top: 42px;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+
+  @media (max-width: 991px) {
+    .faq-container {
+      max-width: 100%;
+      padding: 100px 20px;
+    }
+
+    .content-wrapper {
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      max-width: 100%;
+      font-size: 40px;
+    }
+
+    .faq-item {
+      max-width: 100%;
+      margin-top: 40px;
+    }
+
+    .faq-item:first-of-type {
+      margin-top: 40px;
+    }
+
+    .question-secondary {
+      max-width: 100%;
+      margin-top: 40px;
+    }
+
+    .toggle-icon-secondary {
+      margin-top: 40px;
+    }
+  }
+</style>
+
+<section class="faq-section" aria-labelledby="faq-title">
+  <div class="faq-container">
+    <img
+      src="https://cdn.builder.io/api/v1/image/assets/TEMP/0e8a921b704191664f48e7ba60f6fc1fef0ac80665900f32fd54a7551247edab?placeholderIfAbsent=true&apiKey=c5ae1bfcd4e24868bf11e78214f221da"
+      alt=""
+      class="background-image"
+      role="presentation"
+    />
+    <div class="content-wrapper">
+      <h2 id="faq-title" class="section-title">Ответы на вопросы</h2>
+
+      <div class="faq-item" tabindex="0" role="button">
+        <div class="faq-question">Как попасть на первое занятие к учителю?</div>
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/a9f625c54f4079f03fb5a601f35889d92fa4d069cefcf2f5ced78677d8237a0b?placeholderIfAbsent=true&apiKey=c5ae1bfcd4e24868bf11e78214f221da"
+          alt=""
+          class="toggle-icon"
+          role="presentation"
+        />
+      </div>
+      <div class="faq-item" tabindex="0" role="button">
+        <div class="faq-question">Как попасть на первое занятие к учителю?</div>
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/a9f625c54f4079f03fb5a601f35889d92fa4d069cefcf2f5ced78677d8237a0b?placeholderIfAbsent=true&apiKey=c5ae1bfcd4e24868bf11e78214f221da"
+          alt=""
+          class="toggle-icon"
+          role="presentation"
+        />
+      </div>
+      <div class="faq-item" tabindex="0" role="button">
+        <div class="faq-question">Можно скидку у вас?</div>
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/a9f625c54f4079f03fb5a601f35889d92fa4d069cefcf2f5ced78677d8237a0b?placeholderIfAbsent=true&apiKey=c5ae1bfcd4e24868bf11e78214f221da"
+          alt=""
+          class="toggle-icon"
+          role="presentation"
+        />
+      </div>
+      <div class="faq-item" tabindex="0" role="button">
+        <div class="faq-question">Какой уровень подготовки требуется для записи на занятия?</div>
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/a9f625c54f4079f03fb5a601f35889d92fa4d069cefcf2f5ced78677d8237a0b?placeholderIfAbsent=true&apiKey=c5ae1bfcd4e24868bf11e78214f221da"
+          alt=""
+          class="toggle-icon"
+          role="presentation"
+        />
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,67 @@
+.footer {
+  background-color: #0d0c10;
+  padding: 80px;
+  border-width: 1px 0 0 0;
+  border-style: solid;
+  border-color: #878493;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1300px;
+}
+
+.footer-logo {
+  color: #fff;
+  font: 600 20px/1.4 "Bricolage Grotesque", sans-serif;
+}
+
+.footer-nav {
+  display: flex;
+  flex-direction: column;
+  color: #878493;
+  font: 400 14px/2 Inter, sans-serif;
+}
+
+.footer-nav-title {
+  color: #fff;
+  font-weight: 500;
+}
+
+.footer-nav-link {
+  margin-top: 27px;
+}
+
+.footer-address {
+  display: flex;
+  flex-direction: column;
+  color: #878493;
+  font: 400 14px/2 Inter, sans-serif;
+}
+
+.footer-address-title {
+  color: #fff;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.footer-address-text {
+  color: #878493;
+}
+.footer-nav-text {
+  color: #878493;
+  text-decoration: none;
+}
+.footer-bottom-text {
+  font: 400 14px/2 Inter, sans-serif;
+  color: #878493;
+  margin-top: 20px;
+}

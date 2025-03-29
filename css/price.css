@@ -1,0 +1,172 @@
+.pricing-section {
+  background: #fff;
+  display: flex;
+  overflow: hidden;
+}
+
+.pricing-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 1000px;
+  width: 100%;
+  overflow: hidden;
+  align-items: center;
+  position: relative;
+}
+
+.pricing-background {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.pricing-content {
+  position: relative;
+  display: flex;
+  margin-bottom: -20px;
+  width: 100%;
+  max-width: 1185px;
+  flex-direction: column;
+}
+
+.pricing-title {
+  color: #0d0c10;
+  letter-spacing: -0.4px;
+  text-align: center;
+  align-self: center;
+  padding: 150px 70px 20px 70px;
+  font: 600 40px/1.2 "Bricolage Grotesque", -apple-system, Roboto, Helvetica, sans-serif;
+}
+
+.pricing-cards {
+  margin-top: 88px;
+  display: flex;
+  gap: 40px;
+}
+
+.pricing-card {
+  display: flex;
+  flex-direction: column;
+  width: 33%;
+}
+
+.card-wrapper {
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0 20px 56px rgba(69, 65, 113, 0.16);
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  color: #0d0c10;
+  text-align: center;
+  justify-content: center;
+  width: 100%;
+  padding: 17px 8px;
+  font: 400 14px/2 Inter, sans-serif;
+}
+
+.card-content {
+  border-radius: 16px;
+  background: #f4f3f8;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  align-items: center;
+  padding: 36px 34px;
+}
+
+.card-title {
+  letter-spacing: -0.32px;
+  align-self: stretch;
+  font: 600 32px/1 "Bricolage Grotesque", -apple-system, Roboto, Helvetica, sans-serif;
+}
+
+.price-text {
+  letter-spacing: -0.32px;
+  margin-top: 36px;
+  font: 600 32px/1 "Bricolage Grotesque", -apple-system, Roboto, Helvetica, sans-serif;
+}
+
+.price-prefix {
+  font: 500 24px Inter, -apple-system, Roboto, Helvetica, sans-serif;
+}
+
+.price-amount {
+  font-weight: 700;
+  font-size: 38px;
+  color: #6e19c4;
+}
+
+.price-suffix {
+  font: 500 24px Inter, -apple-system, Roboto, Helvetica, sans-serif;
+}
+
+.price-dot {
+  font: 400 24px Inter, -apple-system, Roboto, Helvetica, sans-serif;
+}
+
+.card-feature {
+  margin-top: 18px;
+}
+
+.card-feature-first {
+  margin-top: 50px;
+}
+
+.signup-button {
+  border-radius: 8px;
+  background: #0d0c10;
+  margin-top: 42px;
+  width: 206px;
+  max-width: 100%;
+  font-size: 12px;
+  color: #fff;
+  font-weight: 700;
+  padding: 14px 68px;
+  cursor: pointer;
+  border: none;
+}
+
+@media (max-width: 991px) {
+  .pricing-container {
+    max-width: 100%;
+    padding: 100px 20px;
+  }
+
+  .pricing-content {
+    max-width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .pricing-cards {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    margin-top: 40px;
+  }
+
+  .pricing-card {
+    width: 100%;
+  }
+
+  .card-wrapper {
+    margin-top: 40px;
+  }
+
+  .card-content {
+    padding: 0 20px;
+  }
+
+  .card-feature-first {
+    margin-top: 40px;
+  }
+
+  .signup-button {
+    margin-top: 40px;
+    padding: 0 20px;
+    white-space: normal;
+  }
+}

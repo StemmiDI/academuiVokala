@@ -1,0 +1,56 @@
+.calendar-calendar {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+  padding: 20px;
+}
+
+.header-calendar-calendar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.button-calendar-calendar {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+#monthName {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.table-calendar-calendar {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.th-calendar-calendar,
+td {
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+}
+
+.th-calendar-calendar {
+  background-color: #f0f0f0;
+}
+
+td {
+  cursor: pointer;
+}
+
+td.today {
+  background-color: #ffcc00;
+  font-weight: bold;
+}
+
+td.empty {
+  background-color: #f9f9f9;
+}

@@ -1,0 +1,168 @@
+.signup-container {
+  background: #fff;
+  display: flex;
+  padding: 55px 0 0;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: Inter, sans-serif;
+  color: #0d0c10;
+}
+
+.signup-wrapper {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-height: 969px;
+  width: 100%;
+  overflow: hidden;
+  align-items: center;
+  padding: 139px 80px 318px;
+}
+
+.background-image {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.form-container {
+  position: relative;
+  display: flex;
+  margin-bottom: -64px;
+  width: 482px;
+  max-width: 100%;
+  flex-direction: column;
+}
+
+.signup-title {
+  letter-spacing: -0.4px;
+  text-align: center;
+  font: 600 40px/48px Bricolage Grotesque, -apple-system, Roboto, Helvetica, sans-serif;
+}
+
+.signup-description {
+  font: 400 16px/24px Inter, sans-serif;
+  text-align: center;
+  margin: 43px 0 0;
+}
+
+.signup-form {
+  display: flex;
+  margin-top: 79px;
+  width: 100%;
+  flex-direction: column;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.input-label {
+  line-height: 2;
+  margin: 0 0 0 12px;
+}
+
+.form-input {
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(13, 12, 16, 0.04);
+  margin: 12px 0 0;
+  font: 400 16px Inter, sans-serif;
+  color: #878493;
+  padding: 14px 13px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+.email-label {
+  line-height: 2;
+  margin: 21px 0 0 12px;
+}
+
+.privacy-container {
+  display: flex;
+  margin: 31px 0 0;
+  gap: 10px;
+  line-height: 2;
+}
+
+.checkbox-wrapper {
+  border-radius: 3px;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(13, 12, 16, 0.04);
+  width: 16px;
+  height: 16px;
+}
+
+.submit-button {
+  border-radius: 8px;
+  background: #0d0c10;
+  margin: 28px 0 0;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 2;
+  padding: 13px 70px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.visually-hidden {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  margin: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+@media (max-width: 991px) {
+  .signup-wrapper {
+    max-width: 100%;
+    padding: 100px 20px;
+  }
+
+  .form-container {
+    margin-bottom: 10px;
+  }
+
+  .signup-title {
+    max-width: 100%;
+    margin-right: 6px;
+  }
+
+  .signup-description {
+    max-width: 100%;
+    margin-top: 40px;
+  }
+
+  .signup-form {
+    max-width: 100%;
+    margin-top: 40px;
+    padding: 0 20px;
+  }
+
+  .input-label {
+    margin-left: 10px;
+  }
+
+  .form-input {
+    padding-right: 20px;
+  }
+
+  .email-label {
+    margin-left: 10px;
+  }
+
+  .privacy-container {
+    margin-left: 4px;
+  }
+
+  .submit-button {
+    padding: 13px 20px;
+  }
+}

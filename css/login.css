@@ -1,0 +1,193 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+* {
+  box-sizing: border-box;
+}
+.auth-container {
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  /* overflow: hidden; */
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+}
+
+.auth-wrapper {
+  width: 100%;
+  max-width: 1115px;
+}
+
+.auth-content {
+  gap: 20px;
+  display: flex;
+}
+
+.auth-form-column {
+  display: flex;
+  flex-direction: column;
+  line-height: normal;
+  width: 26%;
+}
+
+.auth-form {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-self: stretch;
+  margin: auto 0;
+  font: 500 16px Inter, sans-serif;
+}
+
+.auth-title {
+  color: rgb(13, 12, 16);
+  letter-spacing: -0.32px;
+  font: 600 32px/1 "Bricolage Grotesque", -apple-system, Roboto, Helvetica, sans-serif;
+}
+
+.form-label {
+  color: rgb(13, 12, 16);
+  line-height: 2;
+  margin: 25px 0 0 12px;
+}
+
+.form-input {
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(13, 12, 16, 0.04);
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: rgb(135, 132, 147);
+  font-weight: 400;
+  padding: 13px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+.password-label {
+  color: rgb(13, 12, 16);
+  line-height: 2;
+  margin: 21px 0 0 12px;
+}
+
+.forgot-password {
+  color: rgb(13, 12, 16);
+  font-size: 16px;
+  line-height: 2;
+  text-align: center;
+  margin-top: 13px;
+}
+
+.submit-button {
+  border-radius: 8px;
+  background: rgb(13, 12, 16);
+  margin-top: 28px;
+  color: #fff;
+  font-size: 16px;
+  text-align: center;
+  line-height: 2;
+  padding: 14px 70px;
+  border: none;
+  cursor: pointer;
+}
+
+.register-wrapper {
+  display: flex;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 2;
+  margin: 15px 11px 0 10px;
+}
+
+.register-text {
+  color: rgb(135, 132, 147);
+  flex-grow: 1;
+}
+
+.register-link {
+  color: rgb(13, 12, 16);
+  letter-spacing: -0.09px;
+  flex-grow: 1;
+  width: 121px;
+  text-decoration: none;
+}
+
+.image-column {
+  display: flex;
+  flex-direction: column;
+  line-height: normal;
+  width: 74%;
+  margin-left: 20px;
+}
+
+.hero-image {
+  aspect-ratio: 1.61;
+  object-fit: contain;
+  object-position: center;
+  width: 100%;
+  flex-grow: 1;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+@media (max-width: 991px) {
+  .auth-container {
+    padding: 100px 20px;
+  }
+
+  .auth-wrapper {
+    max-width: 100%;
+  }
+
+  .auth-content {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .auth-form-column {
+    width: 100%;
+  }
+
+  .auth-form {
+    margin-top: 40px;
+  }
+
+  .form-label {
+    margin-left: 10px;
+  }
+
+  .form-input {
+    padding-right: 20px;
+  }
+
+  .submit-button {
+    padding: 14px 20px;
+  }
+
+  .register-wrapper {
+    margin-right: 10px;
+  }
+
+  .image-column {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .hero-image {
+    max-width: 100%;
+    margin-top: 40px;
+  }
+}

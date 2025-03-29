@@ -1,0 +1,74 @@
+/* Features Section */
+.features-section {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  align-items: center;
+  padding: 100px 0px 250px;
+}
+
+.features-bg {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.features-content {
+  position: relative;
+  display: flex;
+  margin-bottom: -104px;
+  width: 100%;
+  max-width: 1136px;
+  flex-direction: column;
+}
+
+.features-title {
+  color: #0d0c10;
+  letter-spacing: -0.4px;
+  text-align: center;
+  align-self: center;
+  font: 600 40px/1.2 "Bricolage Grotesque", sans-serif;
+}
+
+.features-grid {
+  margin-top: 115px;
+  display: flex;
+  gap: 20px;
+}
+
+.feature-card {
+  border-radius: 24px;
+  background-color: #fff;
+  box-shadow: 0 20px 56px -12px rgba(69, 65, 113, 0.16);
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  overflow: hidden;
+  align-items: center;
+  color: #0d0c10;
+  text-align: center;
+  width: 100%;
+  padding: 35px 43px;
+}
+
+.feature-icon {
+  aspect-ratio: 1;
+  object-fit: contain;
+  width: 72px;
+}
+
+.feature-title {
+  letter-spacing: -0.28px;
+  align-self: stretch;
+  margin-top: 25px;
+  font: 600 28px/36px "Bricolage Grotesque", sans-serif;
+}
+
+.feature-description {
+  margin-top: 30px;
+  font: 400 16px/24px Inter, sans-serif;
+}

@@ -1,0 +1,30 @@
+Array
+(
+    [subscription] => 6000.00
+    [course] => 1
+    [type] => 1
+    [card_number] => 000000000
+    [card_holder] => вспе
+    [expiry_date] => 121
+    [cvv] => 223
+)
+Array
+(
+    [subscription] => 6000.00
+    [course] => 1
+    [type] => 1
+    [card_number] => 0000 0000 0000 0000
+    [card_holder] => HTRT GFYFYF
+    [expiry_date] => 12/10
+    [cvv] => 123
+)
+Array
+(
+    [subscription] => 6000.00
+    [course] => 1
+    [type] => 2
+    [card_number] => 1234 5678 1234 5678
+    [card_holder] => UYT GYFY
+    [expiry_date] => 10/10
+    [cvv] => 123
+)

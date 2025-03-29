@@ -1,0 +1,120 @@
+/* Общие стили */
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f4f4f9; /* светлый фон */
+  color: #333; /* темный текст для контраста */
+  margin: 0;
+  padding: 0;
+}
+
+/* Основной контейнер */
+.container {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #fff; /* белый фон для формы */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* тень для глубины */
+  border-radius: 10px; /* скругленные углы */
+  transition: box-shadow 0.3s ease; /* плавный эффект при наведении */
+}
+
+.container:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* увеличение тени при наведении */
+}
+
+/* Заголовок */
+h2 {
+  text-align: center;
+  color: #444; /* темно-серый для заголовка */
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+/* Стили для формы */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #555; /* серый для текста меток */
+}
+
+select,
+input {
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd; /* светлая рамка */
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  font-size: 16px;
+  color: #333;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+select:focus,
+input:focus {
+  border-color: #aaa; /* более темный цвет рамки при фокусе */
+  background-color: #fff; /* белый фон при фокусе */
+}
+
+/* Стили для кнопки */
+button {
+  padding: 12px 20px;
+  background-color: #4caf50; /* зеленая кнопка */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #45a049; /* темнее при наведении */
+}
+
+button:active {
+  background-color: #397d3b; /* темно-зеленый при нажатии */
+}
+
+/* Стили для placeholder */
+input::placeholder {
+  color: #888; /* серый цвет для плейсхолдера */
+}
+
+input:focus::placeholder {
+  color: #555; /* более темный цвет для плейсхолдера при фокусе */
+}
+/* Стили для успешного сообщения */
+.alert {
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.alert.success {
+  background-color: #d4edda; /* светло-зеленый фон */
+  color: #155724; /* темно-зеленый текст */
+  border: 1px solid #c3e6cb; /* зеленая рамка */
+}
+
+.alert.error {
+  background-color: #f8d7da; /* светло-красный фон */
+  color: #721c24; /* темно-красный текст */
+  border: 1px solid #f5c6cb; /* красная рамка */
+}
+
+/* Оформление для вывода данных в "pre" */
+pre {
+  background-color: #f1f1f1;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  white-space: pre-wrap; /* автоматический перенос строк */
+  word-wrap: break-word; /* автоматический разрыв длинных строк */
+  margin-top: 10px;
+}
