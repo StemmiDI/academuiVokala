@@ -9,6 +9,6 @@
     <a href="../index.php#contact" class="nav-item">Контакты</a>
   </nav>
   <div class="auth-buttons">
-    <a href="admin.php" class="login-btn">Назад</a>
+    <a href="admin/admin.php" class="login-btn">Назад</a>
   </div>
 </header>
