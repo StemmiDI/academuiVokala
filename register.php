@@ -36,7 +36,7 @@ include "components/header.php" ?>
           <div class="consent-wrapper">
             <input type="checkbox" id="consent" class="visually-hidden" required aria-required="true">
             <span class="checkbox-custom" aria-hidden="true"></span>
-            <label for="consent">Я согласен на <a href="#">обработку персональных данных</a></label>
+            <label for="consent">Я согласен на <a href="Согласие_на_обработку_персональных_данных.pdf">обработку персональных данных</a></label>
           </div>
 
           <button type="submit" class="submit-button">Зарегистрироваться</button>
