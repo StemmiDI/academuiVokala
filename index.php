@@ -182,7 +182,7 @@ include "components/header.php";
     SELECT r.review_text, r.created_at, r.rating, u.name, u.full_name 
     FROM reviews r 
     JOIN users u ON r.user_id = u.id_user
-    WHERE r.status = 'опубликованное'
+    WHERE r.status = 'новое'
     ORDER BY r.created_at DESC
     LIMIT 4
   ";
