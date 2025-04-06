@@ -45,7 +45,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), DATE_ADD(NOW(), INTERVAL 30 DAY))");
         echo "
         <div id='popup' class='popup'>
             <div class='popup-content'>
-                <strong>✅ Успешно!</strong> Данные успешно записаны в базу.
+                <strong> Оплата прошла успешно!</strong>
             </div>
         </div>
         <script>
@@ -56,12 +56,12 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), DATE_ADD(NOW(), INTERVAL 30 DAY))");
             setTimeout(function() {
                 document.getElementById('popup').style.display = 'none';
                 window.location.href = 'user_profile.php'; // Перенаправление на user_profile.php
-            }, 5000); // 5 секунд
+            }, 3000); // 3 секунд
         </script>";
     } else {
         $error = $stmt->errorInfo();
         echo "<div class='alert error'>
-                <strong>❌ Ошибка!</strong> Не удалось записать данные в базу: " . $error[2] . "
+                <strong>Оплата не прошла</strong> : " . $error[2] . "
               </div>";
     }
 }
@@ -198,13 +198,13 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), DATE_ADD(NOW(), INTERVAL 30 DAY))");
             </select>
 
             <label for="card-number">Номер карты:</label>
-            <input type="text" id="card-number" name="card_number" placeholder="0000 0000 0000 0000" maxlength="19" required>
+            <input type="text" id="card-number" name="card_number" placeholder="0000000000000000" maxlength="19" required>
 
             <label for="card-holder">Имя держателя карты:</label>
             <input type="text" id="card-holder" name="card_holder" placeholder="ИМЯ ФАМИЛИЯ" required>
 
             <label for="expiry-date">Срок действия:</label>
-            <input type="text" id="expiry-date" name="expiry_date" placeholder="MM/YY" maxlength="5" required>
+            <input type="text" id="expiry-date" name="expiry_date" placeholder="MMYY" maxlength="5" required>
 
             <label for="cvv">CVV-код:</label>
             <input type="text" id="cvv" name="cvv" placeholder="123" maxlength="3" required>

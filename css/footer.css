@@ -59,7 +59,14 @@
 .footer-nav-text {
   color: #878493;
   text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease, transform 0.2s ease;
 }
+.footer-nav-text:hover {
+  color: #0056b3;
+  transform: translateY(-2px);
+}
+
 .footer-bottom-text {
   font: 400 14px/2 Inter, sans-serif;
   color: #878493;
