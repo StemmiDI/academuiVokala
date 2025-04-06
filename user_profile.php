@@ -125,26 +125,23 @@ $sql = "
         type_schedule ts ON s.type_schedule_id = ts.id
     JOIN 
         teachers t ON s.teacher_id = t.id
+    ORDER BY 
+        FIELD(s.day_of_week, 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'),
+        s.time
 ";
+
 
 $stmt = $pdo->query($sql);
 $schedules = $stmt->fetchAll();
 ?>
-
 <?php
 include "components/head_user.php";
 include "components/header_user.php";
 ?>
-
-
-
 <div class="dashboard">
   <div class="dashboard-container">
     <img src="img/user-prof-back.png" class="background-image" alt="Background" />
-
     <main class="main-content">
-
-
       <div class="content-wrapper user-card" space="35">
         <div class="content-grid">
           <section class="profile-section">
@@ -187,7 +184,6 @@ include "components/header_user.php";
                   </div>
                 </div>
               </div>
-
               <div class="schedule-container">
                 <table class="schedule-table" cellspacing="0" cellpadding="5">
                   <thead class="weekdays-table">
@@ -300,8 +296,6 @@ include "components/header_user.php";
                   </p>
                 <?php endif; ?>
               </div>
-
-
 
             </div>
           </section>
