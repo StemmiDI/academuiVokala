@@ -258,9 +258,9 @@ include "components/header.php";
 
         // Execute the query
         if ($stmt->execute()) {
-          $message = "Success! You have signed up for the free lesson. Please wait for our response.";
+          $message = "Ваша заявка отправлена. Ожидайте подтверждения примерно 10 минут";
         } else {
-          $message = "Something went wrong. Please try again.";
+          $message = "Ошибка при отправке. Пожалуйста, повторите снова";
         }
       }
     }
@@ -279,7 +279,7 @@ include "components/header.php";
           Приходите на занятие, чтобы узнать положение вашего голоса, научиться упражнениям дыхания и дать волю вашим
           эмоциям посредством вокала (занятие длится 1 час).
         </p>
-        <form class="signup-form" method="POST" action="sign_up_free_class.php">
+        <form class="signup-form" method="POST" action="index.php">
           <label for="fullName" class="input-label">Имя</label>
           <input type="text" id="fullName" name="fullName" class="form-input" placeholder="Иван Иванов" required />
 
@@ -301,7 +301,7 @@ include "components/header.php";
             popup.innerHTML = `
       <div class="popup-message">
         <p>${message}</p>
-        <button class="popup-close">Close</button>
+        <button class="popup-close">Закрыть</button>
       </div>
     `;
             document.body.appendChild(popup);
@@ -348,7 +348,7 @@ include "components/header.php";
           }
 
           .popup-close {
-            background-color: #007BFF;
+            background-color: rgb(0, 0, 0);
             color: white;
             border: none;
             padding: 10px 20px;
@@ -358,7 +358,7 @@ include "components/header.php";
           }
 
           .popup-close:hover {
-            background-color: #0056b3;
+            background-color: rgb(0, 0, 0);
           }
         </style>
       </div>
