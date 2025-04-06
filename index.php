@@ -99,10 +99,11 @@ include "components/header.php";
 
   // Запрашиваем данные преподавателей и их курсов
   $query = "
-    SELECT teachers.id, teachers.name_teacher, teachers.photo, courses.name_course
-    FROM teachers
-    JOIN courses ON teachers.course_id = courses.id
+  SELECT teachers.id, teachers.name_teacher, teachers.photo, teachers.description, teachers.phone_number, teachers.email, courses.name_course
+  FROM teachers
+  JOIN courses ON teachers.course_id = courses.id
 ";
+
   $stmt = $pdo->prepare($query);
   $stmt->execute();
   $teachers = $stmt->fetchAll();
@@ -120,19 +121,89 @@ include "components/header.php";
 
         <?php foreach ($teachers as $teacher): ?>
           <div class="teacher-column">
-            <article class="teacher-card">
+            <article class="teacher-card" onclick="togglePopup(<?= $teacher['id'] ?>)">
               <img loading="lazy" src="uploads/<?= htmlspecialchars($teacher['photo']) ?>" class="teacher-image" alt="Фото преподавателя <?= htmlspecialchars($teacher['name_teacher']) ?>" />
-
               <h3 class="teacher-name"><?= htmlspecialchars($teacher['name_teacher']) ?></h3>
               <p class="teacher-position">Преподаватель курса <?= htmlspecialchars($teacher['name_course']) ?></p>
-              <!-- <button class="details-button" tabindex="0">Подробнее</button> -->
             </article>
           </div>
         <?php endforeach; ?>
 
       </div>
+
+      <!-- Popup окна (отдельно, чтобы не ломали сетку) -->
+      <?php foreach ($teachers as $teacher): ?>
+        <div class="teacher-popup" id="popup-<?= $teacher['id'] ?>">
+          <div class="popup-content">
+            <span class="close-btn" onclick="togglePopup(<?= $teacher['id'] ?>)">&times;</span>
+            <h3><?= htmlspecialchars($teacher['name_teacher']) ?></h3>
+            <p><strong>Курс:</strong> <?= htmlspecialchars($teacher['name_course']) ?></p>
+            <p><strong>Описание:</strong> <?= nl2br(htmlspecialchars($teacher['description'])) ?></p>
+            <p><strong>Телефон:</strong> <?= htmlspecialchars($teacher['phone_number']) ?></p>
+            <p><strong>Email:</strong> <?= htmlspecialchars($teacher['email']) ?></p>
+          </div>
+        </div>
+      <?php endforeach; ?>
+
+      <style>
+        .teacher-popup {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.6);
+          z-index: 9999;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .teacher-popup .popup-content {
+          background: #fff;
+          padding: 30px;
+          border-radius: 12px;
+          max-width: 500px;
+          width: 90%;
+          position: relative;
+          text-align: left;
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .teacher-popup .close-btn {
+          position: absolute;
+          top: 10px;
+          right: 15px;
+          font-size: 24px;
+          font-weight: bold;
+          cursor: pointer;
+        }
+      </style>
     </div>
-  </section>
+    <script>
+      function togglePopup(id) {
+        const popup = document.getElementById(`popup-${id}`);
+        if (popup.style.display === "flex") {
+          popup.style.display = "none";
+        } else {
+          // Скрываем все popup'ы
+          document.querySelectorAll('.teacher-popup').forEach(p => p.style.display = 'none');
+          popup.style.display = "flex";
+        }
+      }
+
+      // Дополнительно: закрытие при клике вне popup
+      window.addEventListener('click', function(e) {
+        document.querySelectorAll('.teacher-popup').forEach(popup => {
+          if (e.target === popup) {
+            popup.style.display = 'none';
+          }
+        });
+      });
+    </script>
+
+</div>
+</section>
 </div>
 <div id="price">
   <?php

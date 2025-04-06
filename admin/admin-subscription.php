@@ -163,14 +163,13 @@ $subscriptions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <section class="pricing-section">
     <div class="pricing-container">
         <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/34b35be77066cf7bde7d158057384ba2235707a1?placeholderIfAbsent=true&apiKey=6a50d615cc27474d902ce93693fa09b5"
+            src="../uploads/фон.png"
             class="background-image"
             alt="Background image" />
         <div class="content-wrapper-card">
             <h1 class="pricing-title-ad-s">Управление абонементами</h1>
             <div class="pricing-cards" space="40">
                 <div class="container">
-                    <h1>Управление абонементами</h1>
                     <table>
                         <thead>
                             <tr>
