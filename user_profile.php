@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $user_id = $_SESSION['id_user'];
 
   if ($review_text && $rating >= 1 && $rating <= 5) {
-    $stmt = $pdo->prepare("INSERT INTO reviews (review_text, user_id, rating, created_at, status) VALUES (?, ?, ?, NOW(), 'pending')");
+    $stmt = $pdo->prepare("INSERT INTO reviews (review_text, user_id, rating, created_at, status) VALUES (?, ?, ?, NOW(), 'новое')");
     $stmt->execute([$review_text, $user_id, $rating]);
 
     $successMsg = "Спасибо за ваш отзыв.";
