@@ -183,8 +183,7 @@ $applications = $query->fetchAll();
             </div>
         </div>
     </div>
-    <?php
-    include "../components/footer.php" ?>
+
     <script>
         // Функция для открытия модального окна
         // Функция для открытия модального окна
@@ -242,3 +241,5 @@ $applications = $query->fetchAll();
                 });
         });
     </script>
+    <?php
+    include "../components/footer.php" ?>

@@ -143,9 +143,6 @@ $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
           // Очистка формы
           document.getElementById('addCourseForm').reset();
 
-          setTimeout(() => {
-            alert('Курс успешно добавлен!');
-          }, 100);
         } else {
           alert(data.message);
         }

@@ -13,7 +13,7 @@ include "../components/header-admin.php"; ?>
             <a href="admin/admin-course.php" class="card">Курсы вокала</a>
           </article>
           <article class="column-item">
-            <a href="admin/admin-subscription.php" class="card">Абонемент</a>
+            <a href="admin/admin-subscriptions.php" class="card">Абонемент</a>
           </article>
           <article class="column-item">
             <a href="admin/admin-rasp.php" class="card">Расписание</a>
