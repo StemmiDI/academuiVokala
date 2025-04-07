@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "../app/db.php";
+include "../../app/db.php";
 
 // Получаем данные заявки с курсом
 if (isset($_GET['id'])) {
