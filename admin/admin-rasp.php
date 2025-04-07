@@ -4,62 +4,6 @@ include '../app/db.php';
 include "../components/head_admin.php";
 include "../components/header-outh.php";
 
-
-// Обработка AJAX-запросов
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $action = $_POST['action'];
-
-    if ($action === 'add') {
-        $course_id = $_POST['course_id'];
-        $type_schedule_id = $_POST['type_schedule_id'];
-        $teacher_id = $_POST['teacher_id'];
-        $day_of_week = $_POST['day_of_week'];
-        $time = $_POST['time'];
-
-        $stmt = $pdo->prepare("INSERT INTO schedule (course_id, type_schedule_id, teacher_id, day_of_week, time) 
-                                   VALUES (?, ?, ?, ?, ?)");
-        $stmt->execute([$course_id, $type_schedule_id, $teacher_id, $day_of_week, $time]);
-
-        $last_id = $pdo->lastInsertId();
-
-        echo json_encode([
-            'id' => $last_id,
-            'course_id' => $course_id,
-            'type_schedule_id' => $type_schedule_id,
-            'teacher_id' => $teacher_id,
-            'day_of_week' => $day_of_week,
-            'time' => $time
-        ]);
-        exit;
-    }
-
-    if ($action === 'edit') {
-        $id = $_POST['id'];
-        $course_id = $_POST['course_id'];
-        $type_schedule_id = $_POST['type_schedule_id'];
-        $teacher_id = $_POST['teacher_id'];
-        $day_of_week = $_POST['day_of_week'];
-        $time = $_POST['time'];
-
-        $stmt = $pdo->prepare("UPDATE schedule SET course_id = ?, type_schedule_id = ?, teacher_id = ?, 
-                                   day_of_week = ?, time = ? WHERE id = ?");
-        $stmt->execute([$course_id, $type_schedule_id, $teacher_id, $day_of_week, $time, $id]);
-
-        echo json_encode(['status' => 'success']);
-        exit;
-    }
-
-    if ($action === 'delete') {
-        $id = $_POST['id'];
-
-        $stmt = $pdo->prepare("DELETE FROM schedule WHERE id = ?");
-        $stmt->execute([$id]);
-
-        echo json_encode(['status' => 'success']);
-        exit;
-    }
-}
-
 // Получаем параметры сортировки из запроса (если они есть)
 $sort_by = isset($_GET['sort_by']) ? $_GET['sort_by'] : 'day_of_week'; // Сортировка по умолчанию по дню недели
 $order = isset($_GET['order']) ? $_GET['order'] : 'ASC'; // Направление сортировки по умолчанию ASC
@@ -345,7 +289,8 @@ $type_schedules = $type_schedule_stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <td><?php echo htmlspecialchars($schedule['name_type_schedule']); ?></td>
                                     <td><?php echo htmlspecialchars($schedule['name_teacher']); ?></td>
                                     <td><?php echo htmlspecialchars($schedule['day_of_week']); ?></td>
-                                    <td><?php echo htmlspecialchars($schedule['time']); ?></td>
+                                    <td><?php echo htmlspecialchars(substr($schedule['time'], 0, 5)); ?></td>
+
                                     <td>
                                         <button class="edit" onclick="editSchedule(<?php echo $schedule['id']; ?>)">Изменить</button>
                                         <button class="delete" onclick="deleteSchedule(<?php echo $schedule['id']; ?>)">Удалить</button>
@@ -355,30 +300,40 @@ $type_schedules = $type_schedule_stmt->fetchAll(PDO::FETCH_ASSOC);
                         </tbody>
                     </table>
 
-                    <div class="add-form">
+                    <form class="add-form">
                         <h2>Добавить расписание</h2>
-                        <select id="course_id">
+                        <select id="course_id" required>
                             <option value="">Выберите курс</option>
                             <?php foreach ($courses as $course): ?>
                                 <option value="<?php echo $course['id']; ?>"><?php echo $course['name_course']; ?></option>
                             <?php endforeach; ?>
                         </select>
-                        <select id="type_schedule_id">
+                        <select id="type_schedule_id" required>
                             <option value="">Выберите тип расписания</option>
                             <?php foreach ($type_schedules as $type_schedule): ?>
                                 <option value="<?php echo $type_schedule['id']; ?>"><?php echo $type_schedule['name_type_schedule']; ?></option>
                             <?php endforeach; ?>
                         </select>
-                        <select id="teacher_id">
+                        <select id="teacher_id" required>
                             <option value="">Выберите преподавателя</option>
                             <?php foreach ($teachers as $teacher): ?>
                                 <option value="<?php echo $teacher['id']; ?>"><?php echo $teacher['name_teacher']; ?></option>
                             <?php endforeach; ?>
                         </select>
-                        <input type="text" id="day_of_week" placeholder="День недели">
-                        <input type="text" id="time" placeholder="Время">
-                        <button onclick="addSchedule()">Добавить</button>
-                    </div>
+                        <select id="day_of_week" required>
+                            <option value="">Выберите день недели</option>
+                            <option value="Понедельник">Понедельник</option>
+                            <option value="Вторник">Вторник</option>
+                            <option value="Среда">Среда</option>
+                            <option value="Четверг">Четверг</option>
+                            <option value="Пятница">Пятница</option>
+                            <option value="Суббота">Суббота</option>
+                            <option value="Воскресенье">Воскресенье</option>
+                        </select>
+
+                        <input type="time" id="time" placeholder="Время" required>
+                        <button type="submit">Добавить</button>
+                    </form>
                 </div>
 
                 <!-- Модальное окно для редактирования расписания -->
@@ -405,8 +360,18 @@ $type_schedules = $type_schedule_stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <option value="<?php echo $teacher['id']; ?>"><?php echo $teacher['name_teacher']; ?></option>
                             <?php endforeach; ?>
                         </select>
-                        <input type="text" id="modalDayOfWeek" placeholder="День недели">
-                        <input type="text" id="modalTime" placeholder="Время">
+                        <!-- <input type="text" id="modalDayOfWeek" placeholder="День недели"> -->
+                        <select id="modalDayOfWeek" required>
+                            <option value="">Выберите день недели</option>
+                            <option value="Понедельник">Понедельник</option>
+                            <option value="Вторник">Вторник</option>
+                            <option value="Среда">Среда</option>
+                            <option value="Четверг">Четверг</option>
+                            <option value="Пятница">Пятница</option>
+                            <option value="Суббота">Суббота</option>
+                            <option value="Воскресенье">Воскресенье</option>
+                        </select>
+                        <input type="time" id="modalTime" placeholder="Время">
                         <button onclick="saveSchedule()">Сохранить</button>
                     </div>
                 </div>
@@ -466,34 +431,35 @@ $type_schedules = $type_schedule_stmt->fetchAll(PDO::FETCH_ASSOC);
                             sortTable(sort_by, order);
                         });
                     });
+                    document.querySelector(".add-form").addEventListener("submit",
+                        function addSchedule(e) {
+                            e.preventDefault()
+                            let course_id = document.getElementById('course_id').value;
+                            let type_schedule_id = document.getElementById('type_schedule_id').value;
+                            let teacher_id = document.getElementById('teacher_id').value;
+                            let day_of_week = document.getElementById('day_of_week').value;
+                            let time = document.getElementById('time').value;
 
-                    function addSchedule() {
-                        let course_id = document.getElementById('course_id').value;
-                        let type_schedule_id = document.getElementById('type_schedule_id').value;
-                        let teacher_id = document.getElementById('teacher_id').value;
-                        let day_of_week = document.getElementById('day_of_week').value;
-                        let time = document.getElementById('time').value;
-
-                        fetch('', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/x-www-form-urlencoded'
-                                },
-                                body: new URLSearchParams({
-                                    action: 'add',
-                                    course_id,
-                                    type_schedule_id,
-                                    teacher_id,
-                                    day_of_week,
-                                    time
+                            fetch('admin/api/edit-schedule.php', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/x-www-form-urlencoded'
+                                    },
+                                    body: new URLSearchParams({
+                                        action: 'add',
+                                        course_id,
+                                        type_schedule_id,
+                                        teacher_id,
+                                        day_of_week,
+                                        time
+                                    })
                                 })
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                let table = document.getElementById('scheduleTable');
-                                let row = document.createElement('tr');
-                                row.id = "row-" + data.id;
-                                row.innerHTML = `
+                                .then(response => response.json())
+                                .then(data => {
+                                    let table = document.getElementById('scheduleTable');
+                                    let row = document.createElement('tr');
+                                    row.id = "row-" + data.id;
+                                    row.innerHTML = `
                         <td>${document.querySelector(`#course_id option[value="${data.course_id}"]`).textContent}</td>
                         <td>${document.querySelector(`#type_schedule_id option[value="${data.type_schedule_id}"]`).textContent}</td>
                         <td>${document.querySelector(`#teacher_id option[value="${data.teacher_id}"]`).textContent}</td>
@@ -504,15 +470,15 @@ $type_schedules = $type_schedule_stmt->fetchAll(PDO::FETCH_ASSOC);
                             <button class="delete" onclick="deleteSchedule(${data.id})">Удалить</button>
                         </td>
                     `;
-                                table.appendChild(row);
+                                    table.appendChild(row);
 
-                                document.getElementById('course_id').value = "";
-                                document.getElementById('type_schedule_id').value = "";
-                                document.getElementById('teacher_id').value = "";
-                                document.getElementById('day_of_week').value = "";
-                                document.getElementById('time').value = "";
-                            });
-                    }
+                                    document.getElementById('course_id').value = "";
+                                    document.getElementById('type_schedule_id').value = "";
+                                    document.getElementById('teacher_id').value = "";
+                                    document.getElementById('day_of_week').value = "";
+                                    document.getElementById('time').value = "";
+                                }).catch((e) => console.log(e));
+                        })
 
                     function editSchedule(id) {
                         let row = document.getElementById("row-" + id);
@@ -566,7 +532,7 @@ $type_schedules = $type_schedule_stmt->fetchAll(PDO::FETCH_ASSOC);
                         let day_of_week = document.getElementById("modalDayOfWeek").value;
                         let time = document.getElementById("modalTime").value;
 
-                        fetch('', {
+                        fetch('admin/api/edit-schedule.php', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -591,7 +557,7 @@ $type_schedules = $type_schedule_stmt->fetchAll(PDO::FETCH_ASSOC);
                                 row.children[4].textContent = time;
 
                                 closeScheduleModal();
-                            });
+                            }).catch((e) => console.log('error save edit:', e));
                     }
 
                     function deleteSchedule(id) {
@@ -602,7 +568,7 @@ $type_schedules = $type_schedule_stmt->fetchAll(PDO::FETCH_ASSOC);
                     function confirmDeleteSchedule() {
                         let id = document.getElementById("deleteScheduleId").value;
 
-                        fetch('', {
+                        fetch('admin/api/edit-schedule.php', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/x-www-form-urlencoded'
