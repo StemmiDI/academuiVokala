@@ -134,12 +134,31 @@ $applications = $query->fetchAll();
             </thead>
             <tbody>
                 <?php foreach ($applications as $application): ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($application['free_lesson_name'] ?? 'Не указано'); ?></td>
-                        <td><?php echo htmlspecialchars($application['free_lesson_email'] ?? 'Не указано'); ?></td>
-                        <td><?php echo htmlspecialchars($application['name_course'] ?? 'Не указано'); ?></td> <!-- Используем name_course -->
-                        <td><?php echo htmlspecialchars($application['course_date'] ?? 'Не указано'); ?></td>
-                        <td><?php echo htmlspecialchars($application['lesson_time'] ?? 'Не указано'); ?></td>
+                    <tr id="row-<?php echo $application['id_free_lesson']; ?>">
+                        <td class="name"><?php echo htmlspecialchars($application['free_lesson_name'] ?? 'Не указано'); ?></td>
+                        <td class="email"><?php echo htmlspecialchars($application['free_lesson_email'] ?? 'Не указано'); ?></td>
+                        <td class="course"><?php echo htmlspecialchars($application['name_course'] ?? 'Не указано'); ?></td> <!-- Используем name_course -->
+                        <td class="date">
+                            <?php
+                            if (!empty($application['course_date'])) {
+                                $date = date("d.m.Y", strtotime($application['course_date']));
+                                echo htmlspecialchars($date);
+                            } else {
+                                echo 'Не указано';
+                            }
+                            ?>
+                        </td>
+
+                        <td class="time">
+                            <?php
+                            if (!empty($application['lesson_time'])) {
+                                echo htmlspecialchars(substr($application['lesson_time'], 0, 5));
+                            } else {
+                                echo 'Не указано';
+                            }
+                            ?>
+                        </td>
+
                         <td>
                             <button class="edit-btn" onclick="openModal(<?php echo $application['id_free_lesson']; ?>)">Редактировать</button>
                         </td>
@@ -192,11 +211,11 @@ $applications = $query->fetchAll();
             document.getElementById("editModal").style.display = "block";
 
             // Загрузка данных по ID заявки
-            fetch('get_application.php?id=' + id)
+            fetch('admin/api/get_application.php?id=' + id)
                 .then(response => response.json())
                 .then(data => {
                     if (data.error) {
-                        alert('Ошибка: ' + data.error);
+                        // alert('Ошибка: ' + data.error);
                         return;
                     }
 
@@ -219,22 +238,27 @@ $applications = $query->fetchAll();
             event.preventDefault();
 
             const formData = new FormData(this);
+            const id = formData.get("id_free_lesson"); // ID заявки
 
-            // Выводим данные, отправляемые на сервер
-            for (const [key, value] of formData.entries()) {
-                console.log(`${key}: ${value}`);
-            }
-
-            fetch('update_application.php', {
+            fetch('admin/api/update_application.php', {
                     method: 'POST',
                     body: formData
                 })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
+                        const updated = data.data;
+
+                        const row = document.getElementById("row-" + updated.id);
+                        if (row) {
+                            row.querySelector(".name").textContent = updated.name;
+                            row.querySelector(".email").textContent = updated.email;
+                            row.querySelector(".course").textContent = updated.course;
+                            row.querySelector(".date").textContent = updated.date;
+                            row.querySelector(".time").textContent = updated.time;
+                        }
+
                         closeModal();
-                        alert('Заявка успешно обновлена!');
-                        location.reload(); // Обновить страницу
                     } else {
                         alert('Что-то пошло не так!');
                     }
