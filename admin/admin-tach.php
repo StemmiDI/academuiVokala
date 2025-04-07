@@ -8,67 +8,6 @@ $stmt = $pdo->prepare("SELECT id, name_course FROM courses");
 $stmt->execute();
 $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// AJAX логика
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
-    header('Content-Type: application/json');
-    $action = $_POST['action'];
-
-    if ($action === 'add') {
-        $name = $_POST['name_teacher'];
-        $desc = $_POST['description'];
-        $phone = $_POST['phone_number'];
-        $email = $_POST['email'];
-        $course_id = $_POST['course_id'];
-        $photo = null;
-
-        if (!empty($_FILES['photo']['name'])) {
-            $photo = time() . '_' . $_FILES['photo']['name'];
-            move_uploaded_file($_FILES['photo']['tmp_name'], '../uploads/' . $photo);
-        }
-
-        $stmt = $pdo->prepare("INSERT INTO teachers (name_teacher, description, phone_number, email, course_id, photo) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$name, $desc, $phone, $email, $course_id, $photo]);
-        $id = $pdo->lastInsertId();
-        $course_name = $pdo->query("SELECT name_course FROM courses WHERE id = $course_id")->fetchColumn();
-
-        echo json_encode(['status' => 'success', 'id' => $id, 'name_teacher' => $name, 'description' => $desc, 'phone_number' => $phone, 'email' => $email, 'photo' => $photo, 'course_name' => $course_name]);
-        exit;
-    }
-
-    if ($action === 'edit') {
-        $id = $_POST['id'];
-        $name = $_POST['name_teacher'];
-        $desc = $_POST['description'];
-        $phone = $_POST['phone_number'];
-        $email = $_POST['email'];
-        $course_id = $_POST['course_id'];
-
-        if (!empty($_FILES['photo']['name'])) {
-            $photo = time() . '_' . $_FILES['photo']['name'];
-            move_uploaded_file($_FILES['photo']['tmp_name'], '../uploads/' . $photo);
-            $stmt = $pdo->prepare("UPDATE teachers SET name_teacher=?, description=?, phone_number=?, email=?, course_id=?, photo=? WHERE id=?");
-            $stmt->execute([$name, $desc, $phone, $email, $course_id, $photo, $id]);
-        } else {
-            $stmt = $pdo->prepare("UPDATE teachers SET name_teacher=?, description=?, phone_number=?, email=?, course_id=? WHERE id=?");
-            $stmt->execute([$name, $desc, $phone, $email, $course_id, $id]);
-        }
-
-        echo json_encode(['status' => 'success']);
-        exit;
-    }
-
-    if ($action === 'delete') {
-        $id = $_POST['id'];
-        $stmt = $pdo->prepare("DELETE FROM teachers WHERE id = ?");
-        $stmt->execute([$id]);
-        echo json_encode(['status' => 'success']);
-        exit;
-    }
-
-    echo json_encode(['status' => 'error', 'message' => 'Unknown action']);
-    exit;
-}
-
 // Получаем всех преподавателей
 $stmt = $pdo->prepare("SELECT teachers.*, courses.name_course FROM teachers JOIN courses ON teachers.course_id = courses.id");
 $stmt->execute();
@@ -187,6 +126,7 @@ $teachers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <th>Описание</th>
                     <th>Телефон</th>
                     <th>Email</th>
+                    <th>Курс</th>
                     <th>Фото</th>
                     <th>Действия</th>
                 </tr>
@@ -198,6 +138,7 @@ $teachers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <td><?php echo htmlspecialchars($teacher['description']); ?></td>
                         <td><?php echo htmlspecialchars($teacher['phone_number']); ?></td>
                         <td><?php echo htmlspecialchars($teacher['email']); ?></td>
+                        <td><?php echo htmlspecialchars($teacher['name_course']); ?></td>
                         <td>
                             <?php if ($teacher['photo']): ?>
                                 <img src="../uploads/<?php echo $teacher['photo']; ?>" width="50">
@@ -206,8 +147,8 @@ $teachers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <?php endif; ?>
                         </td>
                         <td>
-                            <button onclick="editTeacher(<?php echo $teacher['id']; ?>)">Изменить</button>
-                            <button onclick="deleteTeacher(<?php echo $teacher['id']; ?>)">Удалить</button>
+                            <button class="edit" onclick="editTeacher(<?php echo $teacher['id']; ?>)">Изменить</button>
+                            <button class="delete" onclick="deleteTeacher(<?php echo $teacher['id']; ?>)">Удалить</button>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -240,14 +181,15 @@ $teachers = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <input type="text" id="modalNameTeacher" placeholder="Имя" required>
             <input type="text" id="modalDescription" placeholder="Описание" required>
             <input type="text" id="modalPhoneNumber" placeholder="Телефон" required>
-            <input type="email" id="modalEmail" placeholder="Email" required>
+            <input type="email" id="modalEmail" placeholder="Почта" required>
+            <input type="file" id="modalPhoto" placeholder="Выберите фото">
             <select id="modalCourseId">
                 <option value="">Выберите курс</option>
                 <?php foreach ($courses as $course): ?>
                     <option value="<?php echo $course['id']; ?>"><?php echo $course['name_course']; ?></option>
                 <?php endforeach; ?>
             </select>
-            <button onclick="saveTeacher()">Сохранить</button>
+            <button type="button" onclick="saveTeacher()">Сохранить</button>
         </div>
     </div>
 
@@ -283,7 +225,7 @@ $teachers = $stmt->fetchAll(PDO::FETCH_ASSOC);
         formData.append('photo', photo);
 
         // Отправляем данные через AJAX
-        fetch('', {
+        fetch('admin/api/edit-teacher.php', {
                 method: 'POST',
                 body: formData
             })
@@ -300,8 +242,8 @@ $teachers = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <td>${teacher.description}</td>
             <td>${teacher.phone_number}</td>
             <td>${teacher.email}</td>
-            <td><img src="../uploads/${teacher.photo}" width="50"></td>
             <td>${teacher.course_name}</td>
+            <td><img src="../uploads/${teacher.photo}" width="50"></td>
             <td>
                 <button class="edit" onclick="editTeacher(${teacher.id})">Изменить</button>
                 <button class="delete" onclick="deleteTeacher(${teacher.id})">Удалить</button>
@@ -327,24 +269,29 @@ $teachers = $stmt->fetchAll(PDO::FETCH_ASSOC);
     function editTeacher(id) {
         let row = document.getElementById("row-" + id);
         let cells = row.getElementsByTagName('td');
-
         document.getElementById("modalTitle").textContent = "Редактировать преподавателя";
         document.getElementById("teacherId").value = id;
         document.getElementById("modalNameTeacher").value = cells[0].textContent;
         document.getElementById("modalDescription").value = cells[1].textContent;
         document.getElementById("modalPhoneNumber").value = cells[2].textContent;
         document.getElementById("modalEmail").value = cells[3].textContent;
+        // document.getElementById("modalPhoto").value = cells[4].textContent;
 
         // Устанавливаем курс по названию
-        let courseName = cells[5].textContent;
+        let courseName = cells[4].textContent.trim();
         let select = document.getElementById("modalCourseId");
+        let found = false;
         for (let i = 0; i < select.options.length; i++) {
-            if (select.options[i].text === courseName) {
+            if (select.options[i].text.trim() === courseName) {
                 select.selectedIndex = i;
+                found = true;
                 break;
             }
         }
-
+        // Если не найден — сбросим выбор
+        if (!found) {
+            select.selectedIndex = 0;
+        }
         document.getElementById("teacherModal").style.display = "block";
     }
 
@@ -352,6 +299,7 @@ $teachers = $stmt->fetchAll(PDO::FETCH_ASSOC);
     // Функция для сохранения изменений преподавателя
     // Функция для сохранения изменений преподавателя
     function saveTeacher() {
+
         let id = document.getElementById("teacherId").value;
         let name_teacher = document.getElementById("modalNameTeacher").value;
         let description = document.getElementById("modalDescription").value;
@@ -375,7 +323,7 @@ $teachers = $stmt->fetchAll(PDO::FETCH_ASSOC);
             formData.append('photo', photo);
         }
 
-        fetch('', {
+        fetch('admin/api/edit-teacher.php', {
                 method: 'POST',
                 body: formData
             })
@@ -388,11 +336,11 @@ $teachers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     row.children[1].textContent = description;
                     row.children[2].textContent = phone_number;
                     row.children[3].textContent = email;
-                    row.children[5].textContent = course_name;
+                    row.children[4].textContent = course_name;
 
                     // Обновляем фото, если оно было загружено
                     if (photo) {
-                        row.children[4].innerHTML = `<img src="../uploads/${data.photo}" width="50">`;
+                        row.children[5].innerHTML = `<img src="../uploads/${data.photo}" width="50">`;
                     }
 
                     closeTeacherModal(); // Закрываем модальное окно
@@ -418,7 +366,7 @@ $teachers = $stmt->fetchAll(PDO::FETCH_ASSOC);
     function confirmDeleteTeacher() {
         let id = document.getElementById("deleteTeacherId").value;
 
-        fetch('', {
+        fetch('admin/api/edit-teacher.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
