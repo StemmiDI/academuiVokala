@@ -7,7 +7,7 @@ include "components/header.php";
   <section class="hero-content">
     <h1 class="hero-title">Раскрой Свой Голос С Нами</h1>
     <p class="hero-description">Профессиональная Школа Вокала С Индивидуальным Подходом К Каждому Ученику.</p>
-    <a href="#" class="cta-button">Записаться на пробный урок</a>
+    <a href="#sign_up_free_class" class="cta-button">Записаться на пробный урок</a>
   </section>
   <section class="hero-image-container">
     <img src="img/img-index.jpg" alt="Musicians performing" class="hero-image" />
