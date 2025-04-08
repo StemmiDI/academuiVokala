@@ -115,95 +115,100 @@ $teachers = $stmt->fetchAll(PDO::FETCH_ASSOC);
         cursor: pointer;
     }
 </style>
+<section class="pricing-section">
+    <div class="pricing-container">
+        <img src="../uploads/фон.png" class="background-image" alt="Background image" />
+        <div class="content-wrapper-card">
+            <h1 class="pricing-title-ad-s">Управление преподавателями</h1>
+            <section class="teacher-management">
+                <div class="container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Имя</th>
+                                <th>Описание</th>
+                                <th>Телефон</th>
+                                <th>Email</th>
+                                <th>Курс</th>
+                                <th>Фото</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($teachers as $teacher): ?>
+                                <tr id="row-<?php echo $teacher['id']; ?>">
+                                    <td><?php echo htmlspecialchars($teacher['name_teacher']); ?></td>
+                                    <td><?php echo htmlspecialchars($teacher['description']); ?></td>
+                                    <td><?php echo htmlspecialchars($teacher['phone_number']); ?></td>
+                                    <td><?php echo htmlspecialchars($teacher['email']); ?></td>
+                                    <td><?php echo htmlspecialchars($teacher['name_course']); ?></td>
+                                    <td>
+                                        <?php if ($teacher['photo']): ?>
+                                            <img src="../uploads/<?php echo $teacher['photo']; ?>" width="50">
+                                        <?php else: ?>
+                                            Нет фото
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <button class="edit" onclick="editTeacher(<?php echo $teacher['id']; ?>)">Изменить</button>
+                                        <button class="delete" onclick="deleteTeacher(<?php echo $teacher['id']; ?>)">Удалить</button>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
 
-<section class="teacher-management">
-    <div class="container">
-        <h1>Управление преподавателями</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>Имя</th>
-                    <th>Описание</th>
-                    <th>Телефон</th>
-                    <th>Email</th>
-                    <th>Курс</th>
-                    <th>Фото</th>
-                    <th>Действия</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($teachers as $teacher): ?>
-                    <tr id="row-<?php echo $teacher['id']; ?>">
-                        <td><?php echo htmlspecialchars($teacher['name_teacher']); ?></td>
-                        <td><?php echo htmlspecialchars($teacher['description']); ?></td>
-                        <td><?php echo htmlspecialchars($teacher['phone_number']); ?></td>
-                        <td><?php echo htmlspecialchars($teacher['email']); ?></td>
-                        <td><?php echo htmlspecialchars($teacher['name_course']); ?></td>
-                        <td>
-                            <?php if ($teacher['photo']): ?>
-                                <img src="../uploads/<?php echo $teacher['photo']; ?>" width="50">
-                            <?php else: ?>
-                                Нет фото
-                            <?php endif; ?>
-                        </td>
-                        <td>
-                            <button class="edit" onclick="editTeacher(<?php echo $teacher['id']; ?>)">Изменить</button>
-                            <button class="delete" onclick="deleteTeacher(<?php echo $teacher['id']; ?>)">Удалить</button>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+                    <div class="add-form">
+                        <h2>Добавить преподавателя</h2>
+                        <input type="text" id="name_teacher" placeholder="Имя">
+                        <input type="text" id="description" placeholder="Описание">
+                        <input type="text" id="phone_number" placeholder="Телефон">
+                        <input type="email" id="email" placeholder="Email">
+                        <input type="file" id="photo" name="photo" accept="image/*">
+                        <select id="course_id">
+                            <option value="">Выберите курс</option>
+                            <?php foreach ($courses as $course): ?>
+                                <option value="<?php echo $course['id']; ?>"><?php echo $course['name_course']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <button onclick="addTeacher()">Добавить</button>
+                    </div>
+                </div>
 
-        <div class="add-form">
-            <h2>Добавить преподавателя</h2>
-            <input type="text" id="name_teacher" placeholder="Имя">
-            <input type="text" id="description" placeholder="Описание">
-            <input type="text" id="phone_number" placeholder="Телефон">
-            <input type="email" id="email" placeholder="Email">
-            <input type="file" id="photo" name="photo" accept="image/*">
-            <select id="course_id">
-                <option value="">Выберите курс</option>
-                <?php foreach ($courses as $course): ?>
-                    <option value="<?php echo $course['id']; ?>"><?php echo $course['name_course']; ?></option>
-                <?php endforeach; ?>
-            </select>
-            <button onclick="addTeacher()">Добавить</button>
-        </div>
-    </div>
+                <!-- Модальные окна для редактирования и удаления преподавателей -->
+                <div id="teacherModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeTeacherModal()">&times;</span>
+                        <h2 id="modalTitle">Редактировать преподавателя</h2>
+                        <input type="hidden" id="teacherId">
+                        <input type="text" id="modalNameTeacher" placeholder="Имя" required>
+                        <input type="text" id="modalDescription" placeholder="Описание" required>
+                        <input type="text" id="modalPhoneNumber" placeholder="Телефон" required>
+                        <input type="email" id="modalEmail" placeholder="Почта" required>
+                        <input type="file" id="modalPhoto" placeholder="Выберите фото">
+                        <select id="modalCourseId">
+                            <option value="">Выберите курс</option>
+                            <?php foreach ($courses as $course): ?>
+                                <option value="<?php echo $course['id']; ?>"><?php echo $course['name_course']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <button type="button" onclick="saveTeacher()">Сохранить</button>
+                    </div>
+                </div>
 
-    <!-- Модальные окна для редактирования и удаления преподавателей -->
-    <div id="teacherModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeTeacherModal()">&times;</span>
-            <h2 id="modalTitle">Редактировать преподавателя</h2>
-            <input type="hidden" id="teacherId">
-            <input type="text" id="modalNameTeacher" placeholder="Имя" required>
-            <input type="text" id="modalDescription" placeholder="Описание" required>
-            <input type="text" id="modalPhoneNumber" placeholder="Телефон" required>
-            <input type="email" id="modalEmail" placeholder="Почта" required>
-            <input type="file" id="modalPhoto" placeholder="Выберите фото">
-            <select id="modalCourseId">
-                <option value="">Выберите курс</option>
-                <?php foreach ($courses as $course): ?>
-                    <option value="<?php echo $course['id']; ?>"><?php echo $course['name_course']; ?></option>
-                <?php endforeach; ?>
-            </select>
-            <button type="button" onclick="saveTeacher()">Сохранить</button>
-        </div>
-    </div>
-
-    <div id="deleteTeacherModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeTeacherModal()">&times;</span>
-            <h2>Вы уверены, что хотите удалить этого преподавателя?</h2>
-            <input type="hidden" id="deleteTeacherId">
-            <button onclick="confirmDeleteTeacher()">Удалить</button>
-            <button onclick="closeTeacherModal()">Отмена</button>
+                <div id="deleteTeacherModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeTeacherModal()">&times;</span>
+                        <h2>Вы уверены, что хотите удалить этого преподавателя?</h2>
+                        <input type="hidden" id="deleteTeacherId">
+                        <button onclick="confirmDeleteTeacher()">Удалить</button>
+                        <button onclick="closeTeacherModal()">Отмена</button>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
 </section>
-
 <script>
     // Функция для добавления преподавателя
     function addTeacher() {
@@ -394,6 +399,5 @@ $teachers = $stmt->fetchAll(PDO::FETCH_ASSOC);
         document.getElementById("deleteTeacherModal").style.display = "none";
     }
 </script>
-
 <?php
 include "../components/footer.php" ?>
