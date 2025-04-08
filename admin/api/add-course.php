@@ -69,17 +69,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $icon_name = time() . '_' . basename($_FILES['icon']['name']);
             move_uploaded_file($_FILES['icon']['tmp_name'], $upload_dir . $icon_name);
 
-            // Обновляем курс с новой иконкой
             $stmt = $pdo->prepare("UPDATE courses SET name_course = ?, description = ?, icon = ? WHERE id = ?");
             $stmt->execute([$name_course, $description, $icon_name, $id]);
+
+            echo json_encode(['status' => 'success', 'icon' => $icon_name]);
+            exit();
         } else {
-            // Обновляем курс без изменения иконки
             $stmt = $pdo->prepare("UPDATE courses SET name_course = ?, description = ? WHERE id = ?");
             $stmt->execute([$name_course, $description, $id]);
-        }
 
-        echo json_encode(['status' => 'success']);
-        exit();
+            echo json_encode(['status' => 'success']);
+            exit();
+        }
     }
 
     if ($action === 'delete') {

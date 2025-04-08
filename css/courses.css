@@ -26,7 +26,7 @@
 .content-wrapper {
   position: relative;
   display: flex;
-  margin-bottom: -74px;
+  margin-bottom: 74px;
   width: 100%;
   max-width: 1040px;
   flex-direction: column;

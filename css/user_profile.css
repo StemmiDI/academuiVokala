@@ -869,6 +869,7 @@ main .user-card {
   font-size: 16px;
   font-weight: 500;
   white-space: nowrap;
+  width: 100%;
 }
 
 @media (max-width: 991px) {
@@ -878,6 +879,11 @@ main .user-card {
 }
 
 .option-name {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  width: 100%;
   font-size: 16px;
   font-weight: 500;
   margin-top: 35px;

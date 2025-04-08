@@ -77,6 +77,10 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), DATE_ADD(NOW(), INTERVAL 30 DAY))");
     <link rel="stylesheet" href="css/pay.css">
     <style>
         /* Основные стили для страницы */
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f7fc;

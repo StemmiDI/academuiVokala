@@ -229,7 +229,7 @@ include "components/header.php";
                   <h3 class="card-title"><?= htmlspecialchars($subscription['name_sub']) ?></h3>
                   <div class="price-text">
                     <span class="price-prefix">от</span>
-                    <span class="price-amount"><?= htmlspecialchars($subscription['price']) ?></span>
+                    <span class="price-amount"><?= htmlspecialchars((int)$subscription['price']) ?></span>
                     <span class="price-suffix">руб.</span>
                   </div>
                   <p class="card-feature card-feature-first"> <?= htmlspecialchars($subscription['level']) ?></p>

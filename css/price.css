@@ -1,22 +1,22 @@
 .pricing-section {
   background: #fff;
   display: flex;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .pricing-container {
   display: flex;
   flex-direction: column;
-  min-height: 1000px;
+  /* min-height: 1000px; */
   width: 100%;
-  overflow: hidden;
+  /* overflow: hidden; */
   align-items: center;
   position: relative;
 }
 
 .pricing-background {
   position: absolute;
-  inset: 0;
+  /* inset: 0; */
   height: 100%;
   width: 100%;
   object-fit: cover;
@@ -26,7 +26,7 @@
 .pricing-content {
   position: relative;
   display: flex;
-  margin-bottom: -20px;
+  margin-bottom: 150px;
   width: 100%;
   max-width: 1185px;
   flex-direction: column;
@@ -43,14 +43,15 @@
 
 .pricing-cards {
   margin-top: 88px;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 40px;
 }
 
 .pricing-card {
   display: flex;
   flex-direction: column;
-  width: 33%;
+  /* width: 33%; */
 }
 
 .card-wrapper {
@@ -62,7 +63,7 @@
   flex-direction: column;
   color: #0d0c10;
   text-align: center;
-  justify-content: center;
+  justify-content: space-between;
   width: 100%;
   padding: 17px 8px;
   font: 400 14px/2 Inter, sans-serif;
@@ -73,7 +74,7 @@
   background: #f4f3f8;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  height: 100%;
   align-items: center;
   padding: 36px 34px;
 }
@@ -142,10 +143,10 @@
   }
 
   .pricing-cards {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
-    margin-top: 40px;
+    /* flex-direction: column;
+    align-items: stretch; */
+    /* gap: 0; */
+    /* margin-top: 40px; */
   }
 
   .pricing-card {
@@ -153,11 +154,11 @@
   }
 
   .card-wrapper {
-    margin-top: 40px;
+    /* margin-top: 40px; */
   }
 
   .card-content {
-    padding: 0 20px;
+    padding: 10px 20px;
   }
 
   .card-feature-first {

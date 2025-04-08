@@ -70,6 +70,7 @@ $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <input type="hidden" id="editCourseId">
           <input type="text" id="editName" placeholder="Название курса" required>
           <input type="text" id="editDescription" placeholder="Описание курса" required>
+          <input type="file" id="editFile" name="icon" accept="image/*">
           <button onclick="editCourse()">Сохранить изменения</button>
         </div>
       </div>
@@ -154,15 +155,21 @@ $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
   // Редактирование курса
   function editCourse() {
-    var id = document.getElementById('editCourseId').value;
-    var name = document.getElementById('editName').value;
-    var description = document.getElementById('editDescription').value;
+    const id = document.getElementById('editCourseId').value;
+    const name = document.getElementById('editName').value;
+    const description = document.getElementById('editDescription').value;
+    const fileInput = document.getElementById('editFile');
 
-    var formData = new FormData();
+    const formData = new FormData();
     formData.append('action', 'edit');
     formData.append('id', id);
     formData.append('name_course', name);
     formData.append('description', description);
+
+    // Добавляем файл, если он выбран
+    if (fileInput.files.length > 0) {
+      formData.append('icon', fileInput.files[0]);
+    }
 
     fetch("/admin/api/add-course.php", {
         method: 'POST',
@@ -176,6 +183,9 @@ $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
           if (row) {
             row.children[0].textContent = name; // Обновляем название курса
             row.children[1].textContent = description; // Обновляем описание
+            if (data.icon) {
+              row.querySelector('img').src = '/uploads/' + data.icon;
+            }
           }
 
           closeModal(); // Закрываем модальное окно

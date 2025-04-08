@@ -201,7 +201,8 @@ include "components/header_user.php";
                     <?php foreach ($schedules as $schedule): ?>
                       <tr>
                         <td><?php echo htmlspecialchars($schedule['day_of_week']); ?></td>
-                        <td><?php echo htmlspecialchars($schedule['time']); ?></td>
+
+                        <td><?php echo htmlspecialchars(substr($schedule['time'], 0, 5)); ?></td>
                         <td><?php echo htmlspecialchars($schedule['course_name']); ?></td>
                         <td><?php echo htmlspecialchars($schedule['name_type_schedule']); ?></td>
                         <td><?php echo htmlspecialchars($schedule['teacher_name']); ?></td>
@@ -240,15 +241,19 @@ include "components/header_user.php";
                   <div class="options-grid">
                     <div class="options-names">
                       <?php foreach ($subscriptionsRow as $subscription): ?>
-                        <p class="option-name"><?= htmlspecialchars($subscription['name_sub']) ?></p>
+                        <div class="option-name"><?= htmlspecialchars($subscription['name_sub']) ?>
+                          <p class="option-price">
+                            <span class="price-value"><?= htmlspecialchars($subscription['price']) ?></span> руб.
+                          </p>
+                        </div>
                       <?php endforeach; ?>
                     </div>
 
-                    <div class="options-prices">
+                    <!-- <div class="options-prices">
                       <?php foreach ($subscriptionsRow as $subscription): ?>
                         <p class="option-price"><span class="price-value"><?= htmlspecialchars($subscription['price']) ?></span> руб.</p>
                       <?php endforeach; ?>
-                    </div>
+                    </div> -->
                   </div>
 
                   <!-- Кнопка, ведущая на payment.php -->
@@ -290,12 +295,11 @@ include "components/header_user.php";
 
                     <button type="submit" style="margin-top: 15px; padding: 10px 20px;">Отправить отзыв</button>
                   </form>
-
-                <?php else: ?>
-                  <p style="color: gray; font-style: italic; margin-top: 10px;">
-                    Вы уже оставили отзыв. Пожалуйста, подождите <?= $remainingDays ?> день(дней), прежде чем оставить новый.
-                  </p>
                 <?php endif; ?>
+                <p class="send-reviews" style="color: gray; font-style: italic; margin-top: 10px; display:none">
+                  Спасибо за ваш отзыв
+                </p>
+
               </div>
 
             </div>
@@ -305,5 +309,39 @@ include "components/header_user.php";
     </main>
   </div>
 </div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const isForm = document.querySelector('#review-form')
+    if (!isForm) {
+      document.querySelector('.send-reviews').style.display = 'block'
+    }
+  })
+  document.getElementById('review-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Предотвращаем стандартную отправку формы
+
+    const form = event.target;
+    const formData = new FormData(form);
+
+    fetch(form.action, {
+        method: form.method,
+        body: formData,
+      })
+      .then(response => response.text()) // можно заменить на response.json(), если сервер возвращает JSON
+      .then(data => {
+        // Показываем сообщение об успешной отправке
+        // alert('Спасибо за ваш отзыв!');
+        const isForm = document.querySelector('#review-form')
+        isForm.remove()
+        document.querySelector('.send-reviews').style.display = 'block';
+
+        form.reset(); // очищаем форму
+      })
+      .catch(error => {
+        console.error('Ошибка при отправке формы:', error);
+        alert('Произошла ошибка. Попробуйте позже.');
+      });
+  });
+</script>
+
 <?php
 include "components/footer.php" ?>

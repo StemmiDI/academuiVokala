@@ -41,6 +41,7 @@
   border-radius: 16px;
   background-color: rgba(13, 12, 16, 1);
   padding: 24px 80px 74px 24px;
+  height: 100%;
 }
 
 .rating-stars {
