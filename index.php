@@ -26,7 +26,7 @@ include "components/header.php";
       <div class="features-grid">
         <article class="feature-card">
           <img
-            src="img/img-cursu.png"
+            src="img/free-icon-teacher.png"
             alt="Иконка профессиональных преподавателей"
             class="feature-icon" />
           <h3 class="feature-title">Профессиональные преподаватели</h3>
@@ -37,7 +37,7 @@ include "components/header.php";
 
         <article class="feature-card">
           <img
-            src="img/img-cursu.png"
+            src="img/free-icon-user.png"
             alt="Иконка индивидуального подхода"
             class="feature-icon" />
           <h3 class="feature-title">Индивидуальный подход</h3>
@@ -48,7 +48,7 @@ include "components/header.php";
 
         <article class="feature-card">
           <img
-            src="img/img-cursu.png"
+            src="img/free-icon-diversity.png"
             alt="Иконка музыкальных стилей"
             class="feature-icon" />
           <h3 class="feature-title">Разнообразие стилей</h3>
