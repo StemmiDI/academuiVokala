@@ -121,7 +121,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), DATE_ADD(NOW(), INTERVAL 30 DAY))");
         }
 
         button {
-            background-color: #4CAF50;
+            background-color: rgb(0, 0, 0);
             color: white;
             border: none;
             padding: 15px;
@@ -133,7 +133,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), DATE_ADD(NOW(), INTERVAL 30 DAY))");
         }
 
         button:hover {
-            background-color: #45a049;
+            background-color: rgb(0, 0, 0);
         }
 
         /* Стили для попапа */
