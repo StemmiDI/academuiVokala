@@ -27,7 +27,7 @@ include "components/header.php" ?>
           <label for="password" class="password-label">Пароль</label>
           <input type="password" id="password" name="password" class="form-input" placeholder="мин. 6 символов" required>
 
-          <a href="#" class="forgot-password" tabindex="0">Забыли пароль?</a>
+
 
           <button type="submit" class="submit-button">Войти</button>
 
