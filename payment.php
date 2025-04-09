@@ -67,155 +67,140 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), DATE_ADD(NOW(), INTERVAL 30 DAY))");
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="ru">
+<?php
+include "components/head.php";
+include "components/header.php";
+?>
+<style>
+    .container {
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        border-radius: 8px;
+        max-width: 600px;
+        margin: 0 auto;
+        margin-bottom: 50px;
+        margin-top: 50px;
+    }
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Оплата абонемента</title>
-    <link rel="stylesheet" href="css/pay.css">
-    <style>
-        /* Основные стили для страницы */
-        * {
-            box-sizing: border-box;
-        }
+    h2 {
+        margin-top: 20px;
+        text-align: center;
+        color: #333;
+    }
 
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f7fc;
-            color: #333;
-            padding: 20px;
-            margin: 0;
-        }
+    label {
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 8px;
+        display: block;
+    }
 
-        .container {
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            border-radius: 8px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
+    select,
+    input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+    }
 
-        h2 {
-            text-align: center;
-            color: #333;
-        }
+    button {
+        background-color: rgb(0, 0, 0);
+        color: white;
+        border: none;
+        padding: 15px;
+        width: 100%;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+    }
 
-        label {
-            font-size: 14px;
-            color: #555;
-            margin-bottom: 8px;
-            display: block;
-        }
+    button:hover {
+        background-color: rgb(0, 0, 0);
+    }
 
-        select,
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-        }
+    /* Стили для попапа */
+    .popup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
 
-        button {
-            background-color: rgb(0, 0, 0);
-            color: white;
-            border: none;
-            padding: 15px;
-            width: 100%;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
+    .popup-content {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        font-size: 18px;
+        color: #4CAF50;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        max-width: 400px;
+        width: 100%;
+    }
 
-        button:hover {
-            background-color: rgb(0, 0, 0);
-        }
+    .popup-content strong {
+        font-size: 22px;
+        display: block;
+        margin-bottom: 15px;
+    }
+</style>
 
-        /* Стили для попапа */
-        .popup {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
+<h2>Оплата абонемента</h2>
+<div class="container">
+    <form action="" method="post">
+        <label for="subscription">Выберите абонемент:</label>
+        <select id="subscription" name="subscription_id" required>
+            <?php foreach ($subscriptions as $subscription): ?>
+                <option value="<?= $subscription['id'] ?>">
+                    <?= htmlspecialchars($subscription['name_sub']) ?> - <?= htmlspecialchars($subscription['price']) ?> руб.
+                </option>
+            <?php endforeach; ?>
+        </select>
 
-        .popup-content {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            font-size: 18px;
-            color: #4CAF50;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            max-width: 400px;
-            width: 100%;
-        }
+        <label for="course">Выберите курс:</label>
+        <select id="course" name="course_id" required>
+            <?php foreach ($courses as $course): ?>
+                <option value="<?= $course['id'] ?>">
+                    <?= htmlspecialchars($course['name_course']) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
 
-        .popup-content strong {
-            font-size: 22px;
-            display: block;
-            margin-bottom: 15px;
-        }
-    </style>
-</head>
+        <label for="type">Тип курса:</label>
+        <select id="type" name="type_schedule_id" required>
+            <?php foreach ($types as $type): ?>
+                <option value="<?= $type['id'] ?>">
+                    <?= htmlspecialchars($type['name_type_schedule']) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
 
-<body>
-    <div class="container">
-        <h2>Оплата абонемента</h2>
-        <form action="" method="post">
-            <label for="subscription">Выберите абонемент:</label>
-            <select id="subscription" name="subscription_id" required>
-                <?php foreach ($subscriptions as $subscription): ?>
-                    <option value="<?= $subscription['id'] ?>">
-                        <?= htmlspecialchars($subscription['name_sub']) ?> - <?= htmlspecialchars($subscription['price']) ?> руб.
-                    </option>
-                <?php endforeach; ?>
-            </select>
+        <label for="card-number">Номер карты:</label>
+        <input type="text" id="card-number" name="card_number" placeholder="0000000000000000" maxlength="19" required>
 
-            <label for="course">Выберите курс:</label>
-            <select id="course" name="course_id" required>
-                <?php foreach ($courses as $course): ?>
-                    <option value="<?= $course['id'] ?>">
-                        <?= htmlspecialchars($course['name_course']) ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
+        <label for="card-holder">Имя держателя карты:</label>
+        <input type="text" id="card-holder" name="card_holder" placeholder="ИМЯ ФАМИЛИЯ" required>
 
-            <label for="type">Тип курса:</label>
-            <select id="type" name="type_schedule_id" required>
-                <?php foreach ($types as $type): ?>
-                    <option value="<?= $type['id'] ?>">
-                        <?= htmlspecialchars($type['name_type_schedule']) ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
+        <label for="expiry-date">Срок действия:</label>
+        <input type="text" id="expiry-date" name="expiry_date" placeholder="MMYY" maxlength="5" required>
 
-            <label for="card-number">Номер карты:</label>
-            <input type="text" id="card-number" name="card_number" placeholder="0000000000000000" maxlength="19" required>
+        <label for="cvv">CVV-код:</label>
+        <input type="text" id="cvv" name="cvv" placeholder="123" maxlength="3" required>
 
-            <label for="card-holder">Имя держателя карты:</label>
-            <input type="text" id="card-holder" name="card_holder" placeholder="ИМЯ ФАМИЛИЯ" required>
+        <button type="submit">Оплатить</button>
+    </form>
+</div>
+<?php
 
-            <label for="expiry-date">Срок действия:</label>
-            <input type="text" id="expiry-date" name="expiry_date" placeholder="MMYY" maxlength="5" required>
-
-            <label for="cvv">CVV-код:</label>
-            <input type="text" id="cvv" name="cvv" placeholder="123" maxlength="3" required>
-
-            <button type="submit">Оплатить</button>
-        </form>
-    </div>
-</body>
-
-</html>
+include "components/footer.php";
+?>

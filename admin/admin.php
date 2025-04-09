@@ -28,6 +28,9 @@ include "../components/header-admin.php"; ?>
           <article class="column-item">
             <a href="admin/admin-free-lesson.php" class="card">Бесплатное занятие</a>
           </article>
+          <article class="column-item">
+            <a href="admin/admin-lesson.php" class="card">Купленные абонементы</a>
+          </article>
 
         </div>
       </div>
