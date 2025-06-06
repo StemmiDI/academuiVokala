@@ -419,4 +419,6 @@ include "components/header_user.php";
 </script>
 
 <?php
+$stmt = null;
+$pdo = null;
 include "components/footer.php" ?>
