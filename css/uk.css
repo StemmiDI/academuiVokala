@@ -293,3 +293,70 @@ body {
     height: auto;
   }
 }
+/* Стили на уведомление о использовании куки файлов */
+.notification {
+  background: #6e44ff;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 16px;
+}
+
+.notification__content {
+  flex: 1 1 12em;
+}
+.notification__content a {
+  color: currentColor;
+}
+
+.notification__button.btn {
+  border-radius: 8px;
+  color: #fff;
+  font-family: Inter, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  padding: 9px;
+  cursor: pointer;
+  background-color: #000;
+  text-decoration: none;
+}
+
+.cookie-notification {
+  font-size: 18px;
+  color: #fff;
+  position: fixed;
+  z-index: 9999;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 700px;
+  width: calc(100% - 30px);
+  animation: showCookieBanner 0.6s cubic-bezier(0.65, 0.05, 0.36, 1) both;
+}
+
+.cookie-notification[hidden] {
+  display: none;
+}
+
+@keyframes showCookieBanner {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 100%);
+  }
+}
+
+@media (min-width: 1366px) {
+  .notification {
+    padding: 10px 10px 12px;
+  }
+}
+
+@media (max-width: 991px) {
+  .notification__content {
+    font-size: 14px;
+  }
+}

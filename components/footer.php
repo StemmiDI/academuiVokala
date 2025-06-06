@@ -21,6 +21,41 @@
             </div>
         </div>
     </div>
+    <script>
+        function showCookieNotification(selectorAndKey, data) {
+            const isTrueLocalStorage = localStorage.getItem(selectorAndKey) === "true";
+            if (isTrueLocalStorage) return;
+
+            const nodeHTML = `<div class="cookie-notification notification" hidden>
+      <div class="notification__content">
+        ${data.text} <a href="${data.link}">рекомендательные технологии</a>
+      </div>
+      <button class="notification__button btn" type="button">ОК</button>
+    </div>`;
+            document.querySelector("body").insertAdjacentHTML("beforeend", nodeHTML);
+            const notification = document.querySelector("." + selectorAndKey);
+            const button = notification?.querySelector(".notification__button");
+
+            if (!notification || !button) return;
+            notification.hidden = false;
+
+            button.addEventListener(
+                "click",
+                () => {
+                    notification.hidden = true;
+                    localStorage.setItem(selectorAndKey, "true");
+                }, {
+                    once: true
+                }
+            );
+        }
+
+        const cookieNotificationData = {
+            text: "Мы собираем файлы cookie и применяем",
+            link: "cookies-policy.php", // ссылка на документ
+        };
+        showCookieNotification("cookie-notification", cookieNotificationData);
+    </script>
 </footer>
 </body>
 
