@@ -9,6 +9,55 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
     exit;
 }
 
+
+
+$query = $pdo->prepare("
+    SELECT 
+        us.id,
+        u.name AS user_name,
+        u.email,
+        u.phone,
+        s.name_sub AS subscription_name,
+        c.name_course,
+        t.name_type_schedule,
+        us.number_rem_classes,
+        s.number_of_lesson,
+        us.is_passed
+    FROM user_subscriptions us
+    LEFT JOIN users u ON us.user_id = u.id_user
+    LEFT JOIN subscriptions s ON us.subscription_id = s.id
+    LEFT JOIN courses c ON us.course_id = c.id
+    LEFT JOIN type_schedule t ON us.type_schedule_id = t.id
+    ORDER BY us.id DESC
+");
+
+$query->execute();
+$subscriptions = $query->fetchAll();
+foreach ($subscriptions as &$sub) {
+    $stmtLessons = $pdo->prepare("SELECT lesson_number FROM completed_lessons WHERE user_subscription_id = ? ORDER BY lesson_number");
+    $stmtLessons->execute([$sub['id']]);
+    $sub['completed_lessons'] = $stmtLessons->fetchAll(PDO::FETCH_COLUMN);
+
+    // Определяем следующий номер занятия
+    if (!empty($sub['completed_lessons'])) {
+        $sub['next_lesson'] = max($sub['completed_lessons']) + 1;
+    } else {
+        $sub['next_lesson'] = 1;
+    }
+
+    // Проверяем, не превышает ли следующий номер общего количества
+    if ($sub['next_lesson'] > $sub['number_of_lesson']) {
+        $sub['next_lesson'] = null; // все занятия пройдены
+    }
+}
+
+// Получаем уникальные типы курсов из данных
+$courseTypes = [];
+foreach ($subscriptions as $sub) {
+    if (!empty($sub['name_type_schedule']) && !in_array($sub['name_type_schedule'], $courseTypes)) {
+        $courseTypes[] = $sub['name_type_schedule'];
+    }
+}
 // Обработка отметки о прохождении занятия
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mark_lesson'])) {
     $userSubscriptionId = $_POST['user_subscription_id'];
@@ -63,54 +112,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mark_lesson'])) {
 
     header("Location: " . $_SERVER['PHP_SELF']);
     exit;
-}
-
-$query = $pdo->prepare("
-    SELECT 
-        us.id,
-        u.name AS user_name,
-        u.email,
-        u.phone,
-        s.name_sub AS subscription_name,
-        c.name_course,
-        t.name_type_schedule,
-        us.number_rem_classes,
-        s.number_of_lesson,
-        us.is_passed
-    FROM user_subscriptions us
-    LEFT JOIN users u ON us.user_id = u.id_user
-    LEFT JOIN subscriptions s ON us.subscription_id = s.id
-    LEFT JOIN courses c ON us.course_id = c.id
-    LEFT JOIN type_schedule t ON us.type_schedule_id = t.id
-    ORDER BY us.id DESC
-");
-
-$query->execute();
-$subscriptions = $query->fetchAll();
-foreach ($subscriptions as &$sub) {
-    $stmtLessons = $pdo->prepare("SELECT lesson_number FROM completed_lessons WHERE user_subscription_id = ? ORDER BY lesson_number");
-    $stmtLessons->execute([$sub['id']]);
-    $sub['completed_lessons'] = $stmtLessons->fetchAll(PDO::FETCH_COLUMN);
-
-    // Определяем следующий номер занятия
-    if (!empty($sub['completed_lessons'])) {
-        $sub['next_lesson'] = max($sub['completed_lessons']) + 1;
-    } else {
-        $sub['next_lesson'] = 1;
-    }
-
-    // Проверяем, не превышает ли следующий номер общего количества
-    if ($sub['next_lesson'] > $sub['number_of_lesson']) {
-        $sub['next_lesson'] = null; // все занятия пройдены
-    }
-}
-
-// Получаем уникальные типы курсов из данных
-$courseTypes = [];
-foreach ($subscriptions as $sub) {
-    if (!empty($sub['name_type_schedule']) && !in_array($sub['name_type_schedule'], $courseTypes)) {
-        $courseTypes[] = $sub['name_type_schedule'];
-    }
 }
 ?>
 <!-- Остальной HTML код остается без изменений -->
