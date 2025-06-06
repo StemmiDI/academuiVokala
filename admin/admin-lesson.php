@@ -111,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mark_lesson'])) {
     }
 
     // header("Location: " . $_SERVER['PHP_SELF']);
-    header("Location: http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "/" . basename($_SERVER['PHP_SELF']));
+    header("Location: http://" . $_SERVER['HTTP_HOST']  . "/admin/admin-lesson.php");
     exit;
 }
 ?>
