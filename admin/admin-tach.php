@@ -400,4 +400,6 @@ $teachers = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 </script>
 <?php
+$stmt = null;
+$pdo = null;
 include "../components/footer.php" ?>
