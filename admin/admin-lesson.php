@@ -9,8 +9,6 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
     exit;
 }
 
-
-
 $query = $pdo->prepare("
     SELECT 
         us.id,
@@ -57,62 +55,6 @@ foreach ($subscriptions as $sub) {
     if (!empty($sub['name_type_schedule']) && !in_array($sub['name_type_schedule'], $courseTypes)) {
         $courseTypes[] = $sub['name_type_schedule'];
     }
-}
-// Обработка отметки о прохождении занятия
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mark_lesson'])) {
-    $userSubscriptionId = $_POST['user_subscription_id'];
-
-    // Получаем следующий номер занятия для отметки
-    $nextLessonQuery = $pdo->prepare("
-        SELECT COALESCE(MAX(lesson_number), 0) + 1 AS next_lesson 
-        FROM completed_lessons 
-        WHERE user_subscription_id = ?
-    ");
-    $nextLessonQuery->execute([$userSubscriptionId]);
-    $nextLesson = $nextLessonQuery->fetchColumn();
-
-    // Проверяем, не превышает ли номер общего количества занятий
-    $totalQuery = $pdo->prepare("
-        SELECT s.number_of_lesson 
-        FROM user_subscriptions us 
-        JOIN subscriptions s ON us.subscription_id = s.id 
-        WHERE us.id = ?
-    ");
-    $totalQuery->execute([$userSubscriptionId]);
-    $totalLessons = $totalQuery->fetchColumn();
-
-    if ($nextLesson <= $totalLessons) {
-        // Проверяем, не было ли уже отмечено это занятие (на всякий случай)
-        $checkQuery = $pdo->prepare("SELECT * FROM completed_lessons WHERE user_subscription_id = ? AND lesson_number = ?");
-        $checkQuery->execute([$userSubscriptionId, $nextLesson]);
-
-        if ($checkQuery->rowCount() === 0) {
-            // Добавляем запись о пройденном занятии
-            $insertQuery = $pdo->prepare("INSERT INTO completed_lessons (user_subscription_id, lesson_number) VALUES (?, ?)");
-            $insertQuery->execute([$userSubscriptionId, $nextLesson]);
-
-            // Обновляем количество оставшихся занятий
-            $remaining = $totalLessons - $nextLesson;
-            $updateQuery = $pdo->prepare("UPDATE user_subscriptions SET number_rem_classes = ? WHERE id = ?");
-            $updateQuery->execute([$remaining, $userSubscriptionId]);
-
-            // Если оставшихся занятий 0, отмечаем абонемент как пройденный
-            if ($remaining == 0) {
-                $updatePassedQuery = $pdo->prepare("UPDATE user_subscriptions SET is_passed = 1 WHERE id = ?");
-                $updatePassedQuery->execute([$userSubscriptionId]);
-            }
-
-            $_SESSION['message'] = "Занятие №$nextLesson успешно отмечено как пройденное";
-        } else {
-            $_SESSION['error'] = "Это занятие уже было отмечено ранее";
-        }
-    } else {
-        $_SESSION['error'] = "Все занятия уже пройдены";
-    }
-
-    // header("Location: " . $_SERVER['PHP_SELF']);
-    header("Location: http://" . $_SERVER['HTTP_HOST']  . "/admin/admin-lesson.php");
-    exit;
 }
 ?>
 <!-- Остальной HTML код остается без изменений -->
@@ -166,6 +108,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mark_lesson'])) {
         display: flex;
         gap: 10px;
         align-items: center;
+        flex-direction: column;
+    }
+
+    .mark-cell {
+        min-width: 200px;
     }
 
     .mark-input {
@@ -202,8 +149,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mark_lesson'])) {
         background-color: #f2dede;
         color: #a94442;
     }
+
+    #message-container {
+        position: fixed;
+        right: 15px;
+        top: 20px;
+        z-index: 9;
+    }
 </style>
-<!-- HTML часть с изменениями в кнопке отметки -->
 
 <section class="pricing-section">
     <div class="pricing-container">
@@ -211,15 +164,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mark_lesson'])) {
         <div class="content-wrapper-card">
             <h1 class="pricing-title-ad-s">Купленные абонементы</h1>
             <div class="container">
-                <?php if (isset($_SESSION['message'])): ?>
-                    <div class="message success"><?php echo $_SESSION['message'];
-                                                    unset($_SESSION['message']); ?></div>
-                <?php endif; ?>
-
-                <?php if (isset($_SESSION['error'])): ?>
-                    <div class="message error"><?php echo $_SESSION['error'];
-                                                unset($_SESSION['error']); ?></div>
-                <?php endif; ?>
+                <div id="message-container"></div>
 
                 <div style="margin-bottom: 20px;">
                     <button onclick="filterByType('all')" class="filter-btn">Показать все</button>
@@ -247,15 +192,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mark_lesson'])) {
                     </thead>
                     <tbody>
                         <?php foreach ($subscriptions as $sub): ?>
-                            <tr data-type="<?php echo htmlspecialchars($sub['name_type_schedule']); ?>">
+                            <tr data-type="<?php echo htmlspecialchars($sub['name_type_schedule']); ?>" data-id="<?php echo $sub['id']; ?>">
                                 <td><?php echo htmlspecialchars($sub['user_name'] ?? 'Не указано'); ?></td>
                                 <td><?php echo htmlspecialchars($sub['email'] ?? 'Не указано'); ?></td>
                                 <td><?php echo htmlspecialchars($sub['phone'] ?? 'Не указано'); ?></td>
                                 <td><?php echo htmlspecialchars($sub['subscription_name'] ?? 'Не указано'); ?></td>
                                 <td><?php echo htmlspecialchars($sub['name_course'] ?? 'Не указано'); ?></td>
                                 <td><?php echo htmlspecialchars($sub['name_type_schedule'] ?? 'Не указано'); ?></td>
-                                <td><?php echo htmlspecialchars($sub['number_of_lesson'] ?? 'Нет данных'); ?></td>
-                                <td><?php echo htmlspecialchars($sub['number_rem_classes'] ?? 'Нет данных'); ?></td>
+                                <td class="total-lessons"><?php echo htmlspecialchars($sub['number_of_lesson'] ?? 'Нет данных'); ?></td>
+                                <td class="remaining-lessons"><?php echo htmlspecialchars($sub['number_rem_classes'] ?? 'Нет данных'); ?></td>
                                 <td class="completed-lessons">
                                     <?php
                                     if (!empty($sub['completed_lessons'])) {
@@ -265,13 +210,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mark_lesson'])) {
                                     }
                                     ?>
                                 </td>
-                                <td>
+                                <td class="mark-cell">
                                     <?php if (isset($sub['next_lesson'])): ?>
-                                        <form class="mark-form" method="POST">
-                                            <input type="hidden" name="user_subscription_id" value="<?php echo $sub['id']; ?>">
-                                            <span style="margin-right: 10px;">Занятие №<?php echo $sub['next_lesson']; ?></span>
-                                            <button type="submit" name="mark_lesson" class="mark-btn">Отметить</button>
-                                        </form>
+                                        <div class="mark-form">
+                                            <span style="margin-right: 10px;">Занятие №<span class="next-lesson"><?php echo $sub['next_lesson']; ?></span></span>
+                                            <button type="button" onclick="markLesson(<?php echo $sub['id']; ?>)" class="mark-btn">Отметить</button>
+                                        </div>
                                     <?php else: ?>
                                         Все занятия пройдены
                                     <?php endif; ?>
@@ -296,6 +240,72 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mark_lesson'])) {
                 row.style.display = "none";
             }
         });
+    }
+
+    function showMessage(type, message) {
+        const container = document.getElementById('message-container');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${type}`;
+        messageDiv.textContent = message;
+        container.appendChild(messageDiv);
+
+        // Удаляем сообщение через 5 секунд
+        setTimeout(() => {
+            messageDiv.remove();
+        }, 5000);
+    }
+
+    function markLesson(subscriptionId) {
+        const row = document.querySelector(`tr[data-id="${subscriptionId}"]`);
+        const button = row.querySelector('.mark-btn');
+        const nextLessonSpan = row.querySelector('.next-lesson');
+        const completedLessonsCell = row.querySelector('.completed-lessons');
+        const remainingLessonsCell = row.querySelector('.remaining-lessons');
+        const totalLessons = parseInt(row.querySelector('.total-lessons').textContent);
+        const nextLesson = parseInt(nextLessonSpan.textContent);
+
+        button.disabled = true;
+        button.textContent = 'Обработка...';
+
+        fetch('admin/api/check_lesson.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `user_subscription_id=${subscriptionId}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showMessage('success', data.message);
+
+                    // Обновляем данные в строке
+                    const newNextLesson = data.data.next_lesson;
+                    const remaining = data.data.remaining;
+                    const completedLessons = data.data.completed_lessons;
+
+                    remainingLessonsCell.textContent = remaining;
+                    completedLessonsCell.textContent = completedLessons.join(', ') || 'Нет пройденных';
+
+                    if (newNextLesson) {
+                        nextLessonSpan.textContent = newNextLesson;
+                    } else {
+                        // Все занятия пройдены
+                        row.querySelector('.mark-cell').innerHTML = 'Все занятия пройдены';
+                    }
+                    button.disabled = false;
+                    button.textContent = 'Отметить';
+                } else {
+                    showMessage('error', data.message);
+                    button.disabled = false;
+                    button.textContent = 'Отметить';
+                }
+            })
+            .catch(error => {
+                showMessage('error', 'Ошибка сети: ' + error.message);
+                button.disabled = false;
+                button.textContent = 'Отметить';
+            });
     }
 </script>
 
