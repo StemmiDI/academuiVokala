@@ -110,7 +110,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mark_lesson'])) {
         $_SESSION['error'] = "Все занятия уже пройдены";
     }
 
-    header("Location: " . $_SERVER['PHP_SELF']);
+    // header("Location: " . $_SERVER['PHP_SELF']);
+    header("Location: http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "/" . basename($_SERVER['PHP_SELF']));
     exit;
 }
 ?>
