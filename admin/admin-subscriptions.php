@@ -88,7 +88,7 @@ include "../components/header-outh.php"; ?>
                     return;
                 }
 
-                fetch('../admin/subscription-handler.php', {
+                fetch('admin/api/subscription-handler.php', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -165,7 +165,7 @@ include "../components/header-outh.php"; ?>
                 const level = document.getElementById('edit-level').value;
                 const number_of_lesson = document.getElementById('edit-number_of_lesson').value;
                 const price = document.getElementById('edit-price').value;
-                fetch('../admin/subscription-handler.php', {
+                fetch('admin/api/subscription-handler.php', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -215,7 +215,7 @@ include "../components/header-outh.php"; ?>
 
             function deleteSubscriptionConfirmed() {
                 // Отправляем запрос на удаление абонемента
-                fetch('../admin/subscription-handler.php', {
+                fetch('admin/api/subscription-handler.php', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'

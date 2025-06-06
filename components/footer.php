@@ -1,7 +1,7 @@
 <footer class="footer">
     <div class="footer-content">
         <div class="footer-bottom">
-            <div class="footer-logo"><img src="../img/logoDark.jpg" alt="">
+            <div class="footer-logo"><img src="../assets/img/logoDark.jpg" alt="">
                 <p class="footer-bottom-text">© 2025 Школа вокала Чистый голос. Все права защищены.</p>
             </div>
             <nav class="footer-nav">

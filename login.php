@@ -41,7 +41,7 @@ include "components/header.php" ?>
 
       <div class="image-column">
         <img
-          src="img/img-index.jpg"
+          src="assets/img/img-index.jpg"
           alt=""
           class="hero-image"
           role="presentation" />

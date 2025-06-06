@@ -11,16 +11,16 @@
   <link rel="manifest" href="/site.webmanifest" />
   <title>Школа Вокала</title>
 
-  <link rel="stylesheet" href="../css/uk.css" />
-  <link rel="stylesheet" href="../css/footer.css">
-  <link rel="stylesheet" href="../css/courses.css">
-  <link rel="stylesheet" href="../css/ped.css">
-  <link rel="stylesheet" href="../css/price.css" />
-  <link rel="stylesheet" href="../css/reviews.css">
-  <link rel="stylesheet" href="../css/sign_up_fclass.css">
-  <link rel="stylesheet" href="../css/contact.css">
-  <link rel="stylesheet" href="../css/почему.css" />
-  <link rel="stylesheet" href="../css/popup-submit-order.css" />
+  <link rel="stylesheet" href="../assets/css/uk.css" />
+  <link rel="stylesheet" href="../assets/css/footer.css">
+  <link rel="stylesheet" href="../assets/css/courses.css">
+  <link rel="stylesheet" href="../assets/css/ped.css">
+  <link rel="stylesheet" href="../assets/css/price.css" />
+  <link rel="stylesheet" href="../assets/css/reviews.css">
+  <link rel="stylesheet" href="../assets/css/sign_up_fclass.css">
+  <link rel="stylesheet" href="../assets/css/contact.css">
+  <link rel="stylesheet" href="../assets/css/почему.css" />
+  <link rel="stylesheet" href="../assets/css/popup-submit-order.css" />
 </head>
 
 <body>

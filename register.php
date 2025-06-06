@@ -46,7 +46,7 @@ include "components/header.php" ?>
 
       <div class="image-column">
         <img
-          src="img/img-index.jpg"
+          src="assets/img/img-index.jpg"
           class="registration-image"
           alt="Registration illustration"
           loading="lazy" />

@@ -31,7 +31,7 @@
     </table>
   </div>
 
-  <script src="mainn.js"></script>
+  <script src="assets/js/calendar.js"></script>
 </body>
 
 </html>

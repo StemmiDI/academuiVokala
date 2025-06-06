@@ -6,7 +6,7 @@ include "../components/header-admin.php"; ?>
   <div class="admin-container">
     <h1 class="admin-title">Панель Администратора</h1>
     <main class="content-wrapper">
-      <img src="../img/admin.png" class="background-image" alt="Content background" />
+      <img src="../assets/img/admin.png" class="background-image" alt="Content background" />
       <div class="top-row">
         <div class="top-row-container">
           <article class="column-item">
@@ -16,14 +16,14 @@ include "../components/header-admin.php"; ?>
             <a href="admin/admin-subscriptions.php" class="card">Абонемент</a>
           </article>
           <article class="column-item">
-            <a href="admin/admin-rasp.php" class="card">Расписание</a>
+            <a href="admin/admin-schedule.php" class="card">Расписание</a>
           </article>
         </div>
       </div>
       <div class="top-row">
         <div class="top-row-container">
           <article class="column-item">
-            <a href="admin/admin-tach.php" class="card">Преподаватели</a>
+            <a href="admin/admin-teachers.php" class="card">Преподаватели</a>
           </article>
           <article class="column-item">
             <a href="admin/admin-free-lesson.php" class="card">Бесплатное занятие</a>

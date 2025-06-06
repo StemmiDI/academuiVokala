@@ -11,7 +11,7 @@ include "components/header_user.php";
     <a href="#sign_up_free_class" class="cta-button">Записаться на пробный урок</a>
   </section>
   <section class="hero-image-container">
-    <img src="img/img-index.jpg" alt="Musicians performing" class="hero-image" />
+    <img src="assets/img/img-index.jpg" alt="Musicians performing" class="hero-image" />
   </section>
 </main>
 </div>
@@ -19,7 +19,7 @@ include "components/header_user.php";
 
   <section class="features-section">
     <img
-      src="img/back1.png"
+      src="assets/img/back1.png"
       alt=""
       class="features-bg" />
     <div class="features-content">
@@ -27,7 +27,7 @@ include "components/header_user.php";
       <div class="features-grid">
         <article class="feature-card">
           <img
-            src="img/free-icon-teacher.png"
+            src="assets/img/free-icon-teacher.png"
             alt="Иконка профессиональных преподавателей"
             class="feature-icon" />
           <h3 class="feature-title">Профессиональные преподаватели</h3>
@@ -38,7 +38,7 @@ include "components/header_user.php";
 
         <article class="feature-card">
           <img
-            src="img/free-icon-user.png"
+            src="assets/img/free-icon-user.png"
             alt="Иконка индивидуального подхода"
             class="feature-icon" />
           <h3 class="feature-title">Индивидуальный подход</h3>
@@ -49,7 +49,7 @@ include "components/header_user.php";
 
         <article class="feature-card">
           <img
-            src="img/free-icon-diversity.png"
+            src="assets/img/free-icon-diversity.png"
             alt="Иконка музыкальных стилей"
             class="feature-icon" />
           <h3 class="feature-title">Разнообразие стилей</h3>
@@ -73,7 +73,7 @@ include "components/header_user.php";
   <div id="courses">
     <section class="vocal-section" aria-labelledby="vocal-courses-title">
       <div class="vocal-container">
-        <img src="img/back3.png" alt="" class="background-image" role="presentation" />
+        <img src="assets/img/back3.png" alt="" class="background-image" role="presentation" />
         <div class="content-wrapper">
           <h2 id="vocal-courses-title" class="section-title">Курсы вокала</h2>
           <p class="section-description">Погрузитесь в мир музыки и откройте свой голос с нашими курсами вокала!</p>
@@ -112,7 +112,7 @@ include "components/header_user.php";
 
   <section class="teachers-section">
     <div class="teachers-container">
-      <img loading="lazy" src="img/back4.png" class="teachers-background-image" alt="" />
+      <img loading="lazy" src="assets/img/back4.png" class="teachers-background-image" alt="" />
       <h2 class="teachers-section-title">Лучшие педагоги по вокалу</h2>
       <p class="teachers-section-description">
         Поставьте технику с помощью наших методик и начните петь, как наши профессионалы!
@@ -219,7 +219,7 @@ include "components/header_user.php";
 
   <section class="pricing-section">
     <div class="pricing-container">
-      <img loading="lazy" src="img/price-back.png" class="pricing-background" alt="" aria-hidden="true" />
+      <img loading="lazy" src="assets/img/price-back.png" class="pricing-background" alt="" aria-hidden="true" />
       <div class="pricing-content">
         <h2 class="pricing-title">Цены на абонементы</h2>
         <div class="pricing-cards">
@@ -273,7 +273,7 @@ include "components/header_user.php";
             <div class="testimonial-content">
               <div class="rating-stars" aria-label="<?= $review['rating'] ?> out of 5 stars rating">
                 <?php for ($i = 0; $i < $review['rating']; $i++): ?>
-                  <img src="img/star1.png" alt="Звезда" class="star-icon" role="presentation" />
+                  <img src="assets/img/star1.png" alt="Звезда" class="star-icon" role="presentation" />
                 <?php endfor; ?>
               </div>
               <p class="reviewer-name"><?= htmlspecialchars($review['name'] . ' ' . $review['full_name']) ?></p>
@@ -306,7 +306,7 @@ include "components/header_user.php";
 
     <div class="signup-wrapper">
       <img
-        src="img/free_class.png"
+        src="assets/img/free_class.png"
         alt=""
         class="background-image"
         loading="lazy" />

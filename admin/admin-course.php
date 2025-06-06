@@ -13,7 +13,7 @@ $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <section class="section-courses-wrapper">
   <div class="courses-main-container">
     <img
-      src="../img/back3.png"
+      src="../assets/img/back3.png"
       alt=""
       class="courses-background-image" />
 

@@ -227,7 +227,7 @@ include "components/header_user.php";
                       <!-- Кнопка "Редактировать" -->
                       <button id="edit-btn" onclick="editPhone()">Редактировать</button>
                     </div>
-                    <script src="edit.js"></script>
+                    <script src="assets/js/edit.js"></script>
                   </div>
                 </div>
               </div>
@@ -270,7 +270,7 @@ include "components/header_user.php";
               </div>
               <div id="calendar">
                 <?php
-                include "my-calen.php"
+                include "my-calendar.php"
                 ?>
               </div>
               <?php if ($subscriptionData): ?>
