@@ -47,8 +47,24 @@
   text-align: center;
   padding: 30px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  position: relative; /* Чтобы тень отображалась корректно */
-  z-index: 2; /* Карточки должны быть выше фона */
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+}
+/* Анимация увеличения */
+@keyframes grow {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.05); /* немного увеличиваем */
+  }
+}
+
+/* Карточка с эффектом при наведении */
+.teacher-card:hover {
+  animation: grow 0.3s forwards; /* длительность 0.3 сек, сохраняем финальное состояние */
+  cursor: pointer; /* курсор указывает на интерактивность */
 }
 
 .teachers-section-title {

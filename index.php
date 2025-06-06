@@ -1,7 +1,8 @@
 <?php
+session_start();
 include 'app/db.php';
 include "components/head.php";
-include "components/header.php";
+include "components/header_user.php";
 ?>
 <main class="hero-section">
   <section class="hero-content">
@@ -301,41 +302,6 @@ include "components/header.php";
 <div id="sign_up_free_class">
 
   <section class="signup-container">
-    <?php
-
-    $message = ''; // Initialize message variable
-
-    // Check if form is submitted
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-      // Get the values from the form
-      $fullName = $_POST['fullName'];
-      $email = $_POST['email'];
-
-      // Sanitize inputs to prevent SQL injection and other security issues
-      $fullName = htmlspecialchars(trim($fullName));
-      $email = filter_var(trim($email), FILTER_SANITIZE_EMAIL);
-
-      // Validate email format
-      if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $message = "Invalid email format";
-      } else {
-        // Prepare SQL query to insert data into the database
-        $sql = "INSERT INTO free_lesson (free_lesson_name, free_lesson_email) VALUES (:fullName, :email)";
-        $stmt = $pdo->prepare($sql);
-
-        // Bind the parameters to the SQL query
-        $stmt->bindParam(':fullName', $fullName);
-        $stmt->bindParam(':email', $email);
-
-        // Execute the query
-        if ($stmt->execute()) {
-          $message = "Ваша заявка отправлена. Ожидайте подтверждения примерно 10 минут";
-        } else {
-          $message = "Ошибка при отправке. Пожалуйста, повторите снова";
-        }
-      }
-    }
-    ?>
 
 
     <div class="signup-wrapper">
@@ -354,8 +320,8 @@ include "components/header.php";
           <label for="fullName" class="input-label">Имя</label>
           <input type="text" id="fullName" name="fullName" class="form-input" placeholder="Иван Иванов" required />
 
-          <label for="email" class="email-label">Почта</label>
-          <input type="email" id="email" name="email" class="form-input" placeholder="business@mail.com" required />
+          <label for="phone" class="email-label">Номер телефона</label>
+          <input type="phone" id="phone" name="phone" class="form-input" placeholder="+79888898989" required />
 
           <div class="privacy-container">
             <input type="checkbox" id="privacy" name="privacy" class="visually-hidden" required />
@@ -365,16 +331,34 @@ include "components/header.php";
           <button type="submit" class="submit-button">Записаться на пробное занятие</button>
         </form>
         <script>
+          const signupForm = document.querySelector('.signup-form');
+          signupForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(signupForm);
+
+            fetch('app/free_submit_order.php', {
+                method: 'POST',
+                body: formData
+              })
+              .then(response => response.json())
+              .then(data => {
+                showPopup(data.message || 'Неизвестный ответ от сервера');
+              })
+              .catch(error => {
+                showPopup('Ошибка при отправке формы. Попробуйте ещё раз.');
+                console.error('Ошибка:', error);
+              });
+          })
           // Function to show popup
           function showPopup(message) {
             const popup = document.createElement('div');
             popup.classList.add('popup');
             popup.innerHTML = `
-      <div class="popup-message">
-        <p>${message}</p>
-        <button class="popup-close">Закрыть</button>
-      </div>
-    `;
+              <div class="popup-message">
+                <p>${message}</p>
+                <button class="popup-close">Закрыть</button>
+              </div>
+            `;
             document.body.appendChild(popup);
 
             // Close the popup when the close button is clicked
@@ -383,55 +367,7 @@ include "components/header.php";
               popup.remove();
             });
           }
-
-          // Check if there is a message from PHP and show the popup
-          <?php if ($message): ?>
-            showPopup("<?php echo $message; ?>");
-          <?php endif; ?>
         </script>
-        <style>
-          /* Popup styles */
-          .popup {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-          }
-
-          .popup-message {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-            width: 80%;
-            max-width: 400px;
-          }
-
-          .popup-message p {
-            font-size: 16px;
-            margin-bottom: 20px;
-          }
-
-          .popup-close {
-            background-color: rgb(0, 0, 0);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 14px;
-            cursor: pointer;
-            border-radius: 5px;
-          }
-
-          .popup-close:hover {
-            background-color: rgb(0, 0, 0);
-          }
-        </style>
       </div>
     </div>
   </section>
@@ -443,10 +379,7 @@ include "components/header.php";
     <div class="contacts-content">
       <h2 class="contacts-title">Контакты</h2>
       <div class="contacts-grid">
-        <img
-          src="img/contact.jpg"
-          alt="Карта расположения школы"
-          class="contacts-map" />
+        <div style="position:relative;overflow:hidden;"><a href="https://yandex.ru/maps/56/chelyabinsk/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:0px;">Челябинск</a><a href="https://yandex.ru/maps/56/chelyabinsk/house/ulitsa_yelkina_59/YkgYdQ5oQEIPQFtvfX10eXxiYQ==/?ll=61.399195%2C55.157914&utm_medium=mapframe&utm_source=maps&z=17.88" style="color:#eee;font-size:12px;position:absolute;top:14px;">Улица Елькина, 59 — Яндекс Карты</a><iframe src="https://yandex.ru/map-widget/v1/?ll=61.399195%2C55.157914&mode=search&ol=geo&ouri=ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgg1NjAyMzM1NhI_0KDQvtGB0YHQuNGPLCDQp9C10LvRj9Cx0LjQvdGB0LosINGD0LvQuNGG0LAg0JXQu9GM0LrQuNC90LAsIDU5IgoNj5h1QhXOoVxC&z=17.88" width="960" height="450" frameborder="1" allowfullscreen="true" style="position:relative;"></iframe></div>
         <div class="contacts-info">
           <h3 class="contacts-heading">Адрес</h3>
           <p class="contacts-text">г. Челябинск, ул. Елькина, д. 59</p>
@@ -464,5 +397,26 @@ include "components/header.php";
     </div>
   </section>
 </div>
+<a href="#" id="scrollToTop" class="scroll-to-top" title="Наверх">↑</a>
+<script>
+  const scrollBtn = document.getElementById('scrollToTop');
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      scrollBtn.classList.add('show');
+    } else {
+      scrollBtn.classList.remove('show');
+    }
+  });
+
+  scrollBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+</script>
+
 <?php
 include "components/footer.php" ?>

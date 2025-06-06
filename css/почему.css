@@ -39,6 +39,15 @@
   display: flex;
   gap: 20px;
 }
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(0.9);
+  }
+  50% {
+    transform: scale(1);
+  }
+}
 
 .feature-card {
   border-radius: 24px;
@@ -53,6 +62,8 @@
   text-align: center;
   width: 100%;
   padding: 35px 43px;
+  transform: scale(1);
+  animation: pulse 3s ease-in-out infinite;
 }
 
 .feature-icon {

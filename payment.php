@@ -33,30 +33,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $expiry_date = $_POST['expiry_date'] ?? '';
     $cvv = $_POST['cvv'] ?? '';
 
-    // Записываем данные в таблицу user_subscriptions
-    $stmt = $pdo->prepare("INSERT INTO user_subscriptions 
-(user_id, subscription_id, course_id, type_schedule_id, card_number, card_holder, expiry_date, cvv, start_date, end_date) 
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), DATE_ADD(NOW(), INTERVAL 30 DAY))");
+    // Получаем количество занятий из выбранного абонемента
+    $lessonCountQuery = $pdo->prepare("SELECT number_of_lesson FROM subscriptions WHERE id = ?");
+    $lessonCountQuery->execute([$subscription_id]);
+    $lessonCount = $lessonCountQuery->fetch(PDO::FETCH_ASSOC);
 
-    $result = $stmt->execute([$id_user, $subscription_id, $course_id, $type_id, $card_number, $card_holder, $expiry_date, $cvv]);
+    if (!$lessonCount) {
+        die("Ошибка: не удалось получить количество занятий.");
+    }
+
+    $number_rem_classes = $lessonCount['number_of_lesson'];
+
+    // Записываем данные в таблицу user_subscriptions, включая number_rem_classes
+    $stmt = $pdo->prepare("INSERT INTO user_subscriptions 
+        (user_id, subscription_id, course_id, type_schedule_id, card_number, card_holder, expiry_date, cvv, start_date, end_date, number_rem_classes) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), DATE_ADD(NOW(), INTERVAL 30 DAY), ?)");
+
+    $result = $stmt->execute([
+        $id_user,
+        $subscription_id,
+        $course_id,
+        $type_id,
+        $card_number,
+        $card_holder,
+        $expiry_date,
+        $cvv,
+        $number_rem_classes
+    ]);
 
     if ($result) {
         // Сообщение об успехе с JavaScript для popup и редиректа
         echo "
         <div id='popup' class='popup'>
             <div class='popup-content'>
-                <strong> Оплата прошла успешно!</strong>
+                <strong>Оплата прошла успешно!</strong>
             </div>
         </div>
         <script>
-            // Показываем всплывающее сообщение
             document.getElementById('popup').style.display = 'flex';
-
-            // Через 5 секунд скрываем попап и выполняем редирект
             setTimeout(function() {
                 document.getElementById('popup').style.display = 'none';
-                window.location.href = 'user_profile.php'; // Перенаправление на user_profile.php
-            }, 3000); // 3 секунд
+                window.location.href = 'user_profile.php';
+            }, 3000);
         </script>";
     } else {
         $error = $stmt->errorInfo();
@@ -66,6 +84,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), DATE_ADD(NOW(), INTERVAL 30 DAY))");
     }
 }
 ?>
+
 
 <?php
 include "components/head.php";

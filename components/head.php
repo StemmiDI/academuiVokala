@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="../css/sign_up_fclass.css">
   <link rel="stylesheet" href="../css/contact.css">
   <link rel="stylesheet" href="../css/почему.css" />
+  <link rel="stylesheet" href="../css/popup-submit-order.css" />
 </head>
 
 <body>

@@ -63,8 +63,22 @@
   padding: 32px;
   display: flex;
   gap: 20px;
+  cursor: pointer;
+}
+/* Анимация увеличения */
+@keyframes growcourse {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.02);
+  }
 }
 
+.course-card:hover {
+  animation: growcourse 0.3s forwards;
+  cursor: pointer;
+}
 .course-icon {
   width: 56px;
   height: 56px;

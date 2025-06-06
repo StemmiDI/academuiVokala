@@ -12,53 +12,24 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
 // Обработка отметки о прохождении занятия
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mark_lesson'])) {
     $userSubscriptionId = $_POST['user_subscription_id'];
+    $lessonNumber = $_POST['lesson_number'];
 
-    // Получаем следующий номер занятия для отметки
-    $nextLessonQuery = $pdo->prepare("
-        SELECT COALESCE(MAX(lesson_number), 0) + 1 AS next_lesson 
-        FROM completed_lessons 
-        WHERE user_subscription_id = ?
-    ");
-    $nextLessonQuery->execute([$userSubscriptionId]);
-    $nextLesson = $nextLessonQuery->fetchColumn();
+    // Проверяем, не было ли уже отмечено это занятие
+    $checkQuery = $pdo->prepare("SELECT * FROM completed_lessons WHERE user_subscription_id = ? AND lesson_number = ?");
+    $checkQuery->execute([$userSubscriptionId, $lessonNumber]);
 
-    // Проверяем, не превышает ли номер общего количества занятий
-    $totalQuery = $pdo->prepare("
-        SELECT s.number_of_lesson 
-        FROM user_subscriptions us 
-        JOIN subscriptions s ON us.subscription_id = s.id 
-        WHERE us.id = ?
-    ");
-    $totalQuery->execute([$userSubscriptionId]);
-    $totalLessons = $totalQuery->fetchColumn();
+    if ($checkQuery->rowCount() === 0) {
+        // Добавляем запись о пройденном занятии
+        $insertQuery = $pdo->prepare("INSERT INTO completed_lessons (user_subscription_id, lesson_number) VALUES (?, ?)");
+        $insertQuery->execute([$userSubscriptionId, $lessonNumber]);
 
-    if ($nextLesson <= $totalLessons) {
-        // Проверяем, не было ли уже отмечено это занятие (на всякий случай)
-        $checkQuery = $pdo->prepare("SELECT * FROM completed_lessons WHERE user_subscription_id = ? AND lesson_number = ?");
-        $checkQuery->execute([$userSubscriptionId, $nextLesson]);
+        // Уменьшаем количество оставшихся занятий
+        $updateQuery = $pdo->prepare("UPDATE user_subscriptions SET number_rem_classes = number_rem_classes - 1 WHERE id = ?");
+        $updateQuery->execute([$userSubscriptionId]);
 
-        if ($checkQuery->rowCount() === 0) {
-            // Добавляем запись о пройденном занятии
-            $insertQuery = $pdo->prepare("INSERT INTO completed_lessons (user_subscription_id, lesson_number) VALUES (?, ?)");
-            $insertQuery->execute([$userSubscriptionId, $nextLesson]);
-
-            // Обновляем количество оставшихся занятий
-            $remaining = $totalLessons - $nextLesson;
-            $updateQuery = $pdo->prepare("UPDATE user_subscriptions SET number_rem_classes = ? WHERE id = ?");
-            $updateQuery->execute([$remaining, $userSubscriptionId]);
-
-            // Если оставшихся занятий 0, отмечаем абонемент как пройденный
-            if ($remaining == 0) {
-                $updatePassedQuery = $pdo->prepare("UPDATE user_subscriptions SET is_passed = 1 WHERE id = ?");
-                $updatePassedQuery->execute([$userSubscriptionId]);
-            }
-
-            $_SESSION['message'] = "Занятие №$nextLesson успешно отмечено как пройденное";
-        } else {
-            $_SESSION['error'] = "Это занятие уже было отмечено ранее";
-        }
+        $_SESSION['message'] = "Занятие успешно отмечено как пройденное";
     } else {
-        $_SESSION['error'] = "Все занятия уже пройдены";
+        $_SESSION['error'] = "Это занятие уже было отмечено ранее";
     }
 
     header("Location: " . $_SERVER['PHP_SELF']);
@@ -75,8 +46,7 @@ $query = $pdo->prepare("
         c.name_course,
         t.name_type_schedule,
         us.number_rem_classes,
-        s.number_of_lesson,
-        us.is_passed
+        s.number_of_lesson
     FROM user_subscriptions us
     LEFT JOIN users u ON us.user_id = u.id_user
     LEFT JOIN subscriptions s ON us.subscription_id = s.id
@@ -88,21 +58,9 @@ $query = $pdo->prepare("
 $query->execute();
 $subscriptions = $query->fetchAll();
 foreach ($subscriptions as &$sub) {
-    $stmtLessons = $pdo->prepare("SELECT lesson_number FROM completed_lessons WHERE user_subscription_id = ? ORDER BY lesson_number");
+    $stmtLessons = $pdo->prepare("SELECT lesson_number FROM completed_lessons WHERE user_subscription_id = ?");
     $stmtLessons->execute([$sub['id']]);
     $sub['completed_lessons'] = $stmtLessons->fetchAll(PDO::FETCH_COLUMN);
-
-    // Определяем следующий номер занятия
-    if (!empty($sub['completed_lessons'])) {
-        $sub['next_lesson'] = max($sub['completed_lessons']) + 1;
-    } else {
-        $sub['next_lesson'] = 1;
-    }
-
-    // Проверяем, не превышает ли следующий номер общего количества
-    if ($sub['next_lesson'] > $sub['number_of_lesson']) {
-        $sub['next_lesson'] = null; // все занятия пройдены
-    }
 }
 
 // Получаем уникальные типы курсов из данных
@@ -113,7 +71,6 @@ foreach ($subscriptions as $sub) {
     }
 }
 ?>
-<!-- Остальной HTML код остается без изменений -->
 <style>
     .container {
         margin: 20px auto;
@@ -201,7 +158,6 @@ foreach ($subscriptions as $sub) {
         color: #a94442;
     }
 </style>
-<!-- HTML часть с изменениями в кнопке отметки -->
 
 <section class="pricing-section">
     <div class="pricing-container">
@@ -264,10 +220,12 @@ foreach ($subscriptions as $sub) {
                                     ?>
                                 </td>
                                 <td>
-                                    <?php if (isset($sub['next_lesson'])): ?>
+                                    <?php if ($sub['number_rem_classes'] > 0): ?>
                                         <form class="mark-form" method="POST">
                                             <input type="hidden" name="user_subscription_id" value="<?php echo $sub['id']; ?>">
-                                            <span style="margin-right: 10px;">Занятие №<?php echo $sub['next_lesson']; ?></span>
+                                            <input type="number" name="lesson_number" class="mark-input"
+                                                min="1" max="<?php echo $sub['number_of_lesson']; ?>"
+                                                required placeholder="№">
                                             <button type="submit" name="mark_lesson" class="mark-btn">Отметить</button>
                                         </form>
                                     <?php else: ?>

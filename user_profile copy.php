@@ -53,33 +53,39 @@ $row = $query->fetch(PDO::FETCH_ASSOC);
 if (!$row) {
   die("Ошибка: пользователь не найден.");
 }
+// Проверка последней оплаты
+$paymentCheck = $pdo->prepare("SELECT start_date FROM user_subscriptions WHERE user_id = ? ORDER BY start_date DESC LIMIT 1");
+$paymentCheck->execute([$id_user]);
+$paymentRow = $paymentCheck->fetch(PDO::FETCH_ASSOC);
 
-// Получаем последний активный абонемент (где is_passed != 1)
+// Проверка последней оплаты
+// Проверка последней оплаты
+$paymentCheckEnd = $pdo->prepare("SELECT end_date FROM user_subscriptions WHERE user_id = ? ORDER BY end_date DESC LIMIT 1");
+$paymentCheckEnd->execute([$id_user]);
+$paymentRowEnd = $paymentCheckEnd->fetch(PDO::FETCH_ASSOC);
+// 
 $subscriptionInfo = $pdo->prepare("
     SELECT 
-        us.start_date,
-        us.end_date,
-        us.number_rem_classes,
-        us.is_passed,
         s.number_of_lesson,
-        s.name_sub AS subscription_name,
-        c.name_course AS course_name
+        us.number_rem_classes
     FROM user_subscriptions us
     LEFT JOIN subscriptions s ON us.subscription_id = s.id
-    LEFT JOIN courses c ON us.course_id = c.id
-    WHERE us.user_id = ? AND us.is_passed != 1
+    WHERE us.user_id = ?
     ORDER BY us.start_date DESC
     LIMIT 1
 ");
 $subscriptionInfo->execute([$id_user]);
-$subscriptionData = $subscriptionInfo->fetch(PDO::FETCH_ASSOC);
+$subscriptionDataLesson = $subscriptionInfo->fetch(PDO::FETCH_ASSOC);
+
+
+
 
 $showSubscriptionBlock = true; // По умолчанию показываем блок
 
-if ($subscriptionData) {
-  $lastPayment = new DateTime($subscriptionData['start_date']);
-  $now = new DateTime();
-  $interval = $lastPayment->diff($now);
+if ($paymentRow && $paymentRow['start_date']) { // Если есть данные о платеже и дате начала
+  $lastPayment = new DateTime($paymentRow['start_date']); // Преобразуем дату начала
+  $now = new DateTime(); // Текущая дата
+  $interval = $lastPayment->diff($now); // Разница между датами
 
   // Условия для скрытия блока:
   // 1. Если с момента начала прошло меньше 30 дней
@@ -87,25 +93,25 @@ if ($subscriptionData) {
   // 3. Если дата окончания не наступила
   if (
     $interval->days < 30 ||
-    (isset($subscriptionData['number_rem_classes']) &&
-      $subscriptionData['number_rem_classes'] > 0) ||
-    ($subscriptionData['end_date'] &&
-      (new DateTime($subscriptionData['end_date'])) > $now)
+    (isset($subscriptionDataLesson['number_rem_classes']) &&
+      $subscriptionDataLesson['number_rem_classes'] > 0) ||
+    ($paymentRowEnd && $paymentRowEnd['end_date'] &&
+      (new DateTime($paymentRowEnd['end_date'])) > $now)
   ) {
     $showSubscriptionBlock = false;
   }
 
   // Явное условие для показа блока при 0 оставшихся занятиях
   if (
-    isset($subscriptionData['number_rem_classes']) &&
-    $subscriptionData['number_rem_classes'] === 0
+    isset($subscriptionDataLesson['number_rem_classes']) &&
+    $subscriptionDataLesson['number_rem_classes'] === 0
   ) {
     $showSubscriptionBlock = true;
   }
 }
 
 // Всегда показывать если нет данных об абонементе
-if (!$subscriptionData) {
+if (!$paymentRow || !$paymentRow['start_date'] || !$subscriptionDataLesson) {
   $showSubscriptionBlock = true;
 }
 
@@ -124,13 +130,39 @@ $typeList = $pdo->prepare("SELECT * FROM type_schedule");
 $typeList->execute();
 $types = $typeList->fetchAll(PDO::FETCH_ASSOC);
 
+// Запрос на получение абонемента и курса
+$subscriptionQuery = $pdo->prepare("
+    SELECT 
+        s.name_sub AS subscription_name, 
+        c.name_course AS course_name
+    FROM user_subscriptions us
+    LEFT JOIN subscriptions s ON us.subscription_id = s.id
+    LEFT JOIN courses c ON us.course_id = c.id
+    WHERE us.user_id = ?
+");
+
+// ✅ Передаем параметр $id_user
+$subscriptionQuery->execute([$id_user]);
+$subscriptionData = $subscriptionQuery->fetch(PDO::FETCH_ASSOC);
+
+// Безопасный вывод
+$name = htmlspecialchars($row['name'] ?? '', ENT_QUOTES, 'UTF-8');
+$email = htmlspecialchars($row['email'] ?? '', ENT_QUOTES, 'UTF-8');
+$fullName = htmlspecialchars($row['full_name'] ?? '', ENT_QUOTES, 'UTF-8');
+$phone = htmlspecialchars($row['phone'] ?? '', ENT_QUOTES, 'UTF-8');
+
+// Данные абонемента и курса
+
+$subscription_name = htmlspecialchars($subscriptionData['subscription_name'] ?? 'Нет данных', ENT_QUOTES, 'UTF-8');
+$course_name = htmlspecialchars($subscriptionData['course_name'] ?? 'Нет данных', ENT_QUOTES, 'UTF-8');
+// --- Здесь начинается нужная вставка ---
 // Получаем course_id и type_schedule_id из последней покупки пользователя
 $courseTypeQuery = $pdo->prepare("
     SELECT 
         us.course_id,
         us.type_schedule_id
     FROM user_subscriptions us
-    WHERE us.user_id = ? AND us.is_passed != 1
+    WHERE us.user_id = ?
     ORDER BY us.start_date DESC
     LIMIT 1
 ");
@@ -166,20 +198,15 @@ if ($courseTypeData) {
 } else {
   $schedules = [];
 }
-
-// Безопасный вывод
-$name = htmlspecialchars($row['name'] ?? '', ENT_QUOTES, 'UTF-8');
-$email = htmlspecialchars($row['email'] ?? '', ENT_QUOTES, 'UTF-8');
-$fullName = htmlspecialchars($row['full_name'] ?? '', ENT_QUOTES, 'UTF-8');
-$phone = htmlspecialchars($row['phone'] ?? '', ENT_QUOTES, 'UTF-8');
-
-// Данные абонемента и курса
-$subscription_name = htmlspecialchars($subscriptionData['subscription_name'] ?? 'Нет данных', ENT_QUOTES, 'UTF-8');
-$course_name = htmlspecialchars($subscriptionData['course_name'] ?? 'Нет данных', ENT_QUOTES, 'UTF-8');
-$number_of_lesson = htmlspecialchars($subscriptionData['number_of_lesson'] ?? 'Нет данных', ENT_QUOTES, 'UTF-8');
-$number_rem_classes = htmlspecialchars($subscriptionData['number_rem_classes'] ?? 'Нет данных', ENT_QUOTES, 'UTF-8');
-$start_date = isset($subscriptionData['start_date']) ? htmlspecialchars($subscriptionData['start_date']) : 'Нет данных';
-$end_date = isset($subscriptionData['end_date']) ? htmlspecialchars($subscriptionData['end_date']) : 'Нет данных';
+$passedQuery = $pdo->prepare("
+    SELECT is_passed 
+    FROM user_subscriptions 
+    WHERE user_id = ? 
+    ORDER BY start_date DESC 
+    LIMIT 1
+");
+$passedQuery->execute([$id_user]);
+$isPassed = $passedQuery->fetchColumn();
 ?>
 <?php
 include "components/head_user.php";
@@ -273,7 +300,7 @@ include "components/header_user.php";
                 include "my-calen.php"
                 ?>
               </div>
-              <?php if ($subscriptionData): ?>
+              <?php if ($isPassed == 1): ?>
                 <h3 class="subscription-title">Ваш курс и абонимент</h3>
                 <div class="subscription-info">
                   <div class="subscription-type">
@@ -288,22 +315,30 @@ include "components/header_user.php";
                 <div class="subscription-info">
                   <div class="course-info">
                     <h4 class="course-label">Дата начала</h4>
-                    <p class="course-value"><?= $start_date ?></p>
+                    <p class="course-value">
+                      <?= isset($paymentRow['start_date']) ? htmlspecialchars($paymentRow['start_date']) : 'Нет данных' ?>
+                    </p>
                   </div>
                   <div class="course-info">
                     <h4 class="course-label">Дата конца</h4>
-                    <p class="course-value"><?= $end_date ?></p>
+                    <p class="course-value">
+                      <?= isset($paymentRowEnd['end_date']) ? htmlspecialchars($paymentRowEnd['end_date']) : 'Нет данных' ?>
+                    </p>
                   </div>
                 </div>
 
                 <div class="subscription-info">
                   <div class="course-info">
                     <h4 class="course-label">Общее количество занятий</h4>
-                    <p class="course-value"><?= $number_of_lesson ?></p>
+                    <p class="course-value">
+                      <?= isset($subscriptionDataLesson['number_of_lesson']) ? htmlspecialchars($subscriptionDataLesson['number_of_lesson']) : 'Нет данных' ?>
+                    </p>
                   </div>
                   <div class="course-info">
                     <h4 class="course-label">Оставшееся количество занятий</h4>
-                    <p class="course-value"><?= $number_rem_classes ?></p>
+                    <p class="course-value">
+                      <?= isset($subscriptionDataLesson['number_rem_classes']) ? htmlspecialchars($subscriptionDataLesson['number_rem_classes']) : 'Нет данных' ?>
+                    </p>
                   </div>
                 </div>
               <?php endif; ?>
@@ -323,6 +358,12 @@ include "components/header_user.php";
                         </div>
                       <?php endforeach; ?>
                     </div>
+
+                    <!-- <div class="options-prices">
+                      <?php foreach ($subscriptionsRow as $subscription): ?>
+                        <p class="option-price"><span class="price-value"><?= htmlspecialchars($subscription['price']) ?></span> руб.</p>
+                      <?php endforeach; ?>
+                    </div> -->
                   </div>
 
                   <!-- Кнопка, ведущая на payment.php -->

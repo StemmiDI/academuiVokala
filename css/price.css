@@ -51,9 +51,20 @@
 .pricing-card {
   display: flex;
   flex-direction: column;
-  /* width: 33%; */
 }
-
+/* Анимация увеличения */
+@keyframes animpricing {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.05);
+  }
+}
+.pricing-card:hover {
+  animation: animpricing 0.3s forwards;
+  cursor: pointer;
+}
 .card-wrapper {
   border-radius: 24px;
   background: #fff;
@@ -142,19 +153,8 @@
     margin-bottom: 10px;
   }
 
-  .pricing-cards {
-    /* flex-direction: column;
-    align-items: stretch; */
-    /* gap: 0; */
-    /* margin-top: 40px; */
-  }
-
   .pricing-card {
     width: 100%;
-  }
-
-  .card-wrapper {
-    /* margin-top: 40px; */
   }
 
   .card-content {
