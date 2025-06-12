@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="../assets/css/reviews.css">
   <link rel="stylesheet" href="../assets/css/sign_up_fclass.css">
   <link rel="stylesheet" href="../assets/css/contact.css">
-  <link rel="stylesheet" href="../assets/css/почему.css" />
+  <link rel="stylesheet" href="../assets/css/about.css" />
   <link rel="stylesheet" href="../assets/css/popup-submit-order.css" />
 </head>
 
