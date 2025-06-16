@@ -187,7 +187,7 @@ include "components/header_user.php";
 ?>
 <div class="dashboard">
   <div class="dashboard-container">
-    <img src="img/user-prof-back.png" class="background-image" alt="Background" />
+    <img src="assets/img/user-prof-back.png" class="background-image" alt="Background" />
     <main class="main-content">
       <div class="content-wrapper user-card" space="35">
         <div class="content-grid">
@@ -197,7 +197,7 @@ include "components/header_user.php";
                 <div class="profile-info-grid">
                   <div class="profile-card">
                     <div class="profile-card-content">
-                      <img src="img/user-prof-foto.png" class="profile-image" alt="Profile" />
+                      <img src="assets/img/user-prof-foto.png" class="profile-image" alt="Profile" />
                       <h2 class="profile-name">
                         <?= $name ?> <br />
                         <?= $fullName ?>
@@ -269,9 +269,29 @@ include "components/header_user.php";
               <div class="calendar-header">
               </div>
               <div id="calendar">
-                <?php
-                include "my-calendar.php"
-                ?>
+                <div class="calendar-calendar">
+                  <header class="header-calendar-calendar">
+                    <button class="button-calendar-calendar" id="prevMonth">←</button>
+                    <span class="span-calendar-calendar" id="monthName"></span>
+                    <button class="button-calendar-calendar" id="nextMonth">→</button>
+                  </header>
+                  <table class="table-calendar-calendar" id="calendarTable">
+                    <thead class="thead-calendar-calendar">
+                      <tr class="tr-calendar-calendar">
+                        <th class="th-calendar-calendar">Пн</th>
+                        <th class="th-calendar-calendar">Вт</th>
+                        <th class="th-calendar-calendar">Ср</th>
+                        <th class="th-calendar-calendar">Чт</th>
+                        <th class="th-calendar-calendar">Пт</th>
+                        <th class="th-calendar-calendar">Сб</th>
+                        <th class="th-calendar-calendar">Вс</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+
+                <script src="assets/js/calendar.js"></script>
               </div>
               <?php if ($subscriptionData): ?>
                 <h3 class="subscription-title">Ваш курс и абонимент</h3>

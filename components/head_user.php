@@ -8,6 +8,7 @@
 
   <link rel="stylesheet" href="../assets/css/uk.css" />
   <link rel="stylesheet" href="../assets/css/user_profile.css" />
+  <link rel="stylesheet" href="../assets/css/my-style.css" />
   <link rel="stylesheet" href="../assets/css/footer.css">
 </head>
 
