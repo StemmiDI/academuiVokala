@@ -72,7 +72,7 @@ include "../components/header-outh.php"; ?>
                     <span class="close" onclick="closeDeleteModal()">&times;</span>
                     <h2>Вы уверены, что хотите удалить абонемент?</h2>
                     <button class="delete" onclick="deleteSubscriptionConfirmed()">Удалить</button>
-                    <button onclick="closeDeleteModal()">Отменить</button>
+                    <button class="cancel-btn" onclick="closeDeleteModal()">Отменить</button>
                 </div>
             </div>
 

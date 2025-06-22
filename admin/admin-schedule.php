@@ -170,8 +170,8 @@ $type_schedules = $type_schedule_stmt->fetchAll(PDO::FETCH_ASSOC);
                         <span class="close" onclick="closeScheduleModal()">&times;</span>
                         <h2>Вы уверены, что хотите удалить это расписание?</h2>
                         <input type="hidden" id="deleteScheduleId">
-                        <button onclick="confirmDeleteSchedule()">Удалить</button>
-                        <button onclick="closeScheduleModal()">Отмена</button>
+                        <button class="delete" onclick="confirmDeleteSchedule()">Удалить</button>
+                        <button class="cancel-btn" onclick="closeScheduleModal()">Отмена</button>
                     </div>
                 </div>
 

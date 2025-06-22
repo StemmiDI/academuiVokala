@@ -203,8 +203,8 @@ $teachers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <span class="close" onclick="closeTeacherModal()">&times;</span>
                         <h2>Вы уверены, что хотите удалить этого преподавателя?</h2>
                         <input type="hidden" id="deleteTeacherId">
-                        <button onclick="confirmDeleteTeacher()">Удалить</button>
-                        <button onclick="closeTeacherModal()">Отмена</button>
+                        <button class="delete" onclick="confirmDeleteTeacher()">Удалить</button>
+                        <button class="cancel-btn" onclick="closeTeacherModal()">Отмена</button>
                     </div>
                 </div>
             </section>
