@@ -19,7 +19,7 @@ if (!$data) {
 
 $action = $data['action'];
 
-include '../app/db.php';
+include '../../app/db.php';
 
 if ($action === 'add') {
     $name_sub = $data['name_sub'];
