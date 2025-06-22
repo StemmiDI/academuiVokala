@@ -63,8 +63,6 @@ include "components/header_user.php";
 </div>
 <div id="courses">
   <?php
-
-  // Запрос курсов
   $query = "SELECT name_course, description, icon FROM courses";
   $stmt = $pdo->prepare($query);
   $stmt->execute();
@@ -97,14 +95,11 @@ include "components/header_user.php";
 </div>
 <div id="ped">
   <?php
-
-  // Запрашиваем данные преподавателей и их курсов
   $query = "
   SELECT teachers.id, teachers.name_teacher, teachers.photo, teachers.description, teachers.phone_number, teachers.email, courses.name_course
   FROM teachers
   JOIN courses ON teachers.course_id = courses.id
 ";
-
   $stmt = $pdo->prepare($query);
   $stmt->execute();
   $teachers = $stmt->fetchAll();
@@ -208,9 +203,6 @@ include "components/header_user.php";
 </div>
 <div id="price">
   <?php
-
-
-  // Запрашиваем данные о подписках
   $query = "SELECT id, name_sub, level, number_of_lesson, price FROM subscriptions";
   $stmt = $pdo->prepare($query);
   $stmt->execute();
@@ -248,8 +240,6 @@ include "components/header_user.php";
 
 <div id="reviews">
   <?php
-
-  // Получаем последние 4 отзыва с рейтингом
   $query = "
     SELECT r.review_text, r.created_at, r.rating, u.name, u.full_name 
     FROM reviews r 
@@ -302,7 +292,6 @@ include "components/header_user.php";
 <div id="sign_up_free_class">
 
   <section class="signup-container">
-
 
     <div class="signup-wrapper">
       <img

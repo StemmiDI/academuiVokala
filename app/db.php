@@ -8,10 +8,10 @@ use Dotenv\Dotenv;
 $dotenv = Dotenv::createImmutable(__DIR__ . "/..");
 $dotenv->load();
 
-$host = $_ENV['DB_HOST'];  // хост
-$dbname = $_ENV['DB_NAME']; // название базы данных
-$username = $_ENV['DB_USER'];  // имя пользователя
-$password = $_ENV['DB_PASS'];  // пароль
+$host = $_ENV['DB_HOST'];
+$dbname = $_ENV['DB_NAME'];
+$username = $_ENV['DB_USER'];
+$password = $_ENV['DB_PASS'];
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
