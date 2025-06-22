@@ -185,6 +185,31 @@ $end_date = isset($subscriptionData['end_date']) ? htmlspecialchars($subscriptio
 include "components/head_user.php";
 include "components/header_user.php";
 ?>
+<style>
+  .message {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+  }
+
+  .success {
+    background-color: #dff0d8;
+    color: #3c763d;
+  }
+
+  .error {
+    background-color: #f2dede;
+    color: #a94442;
+  }
+
+  #message-container {
+    position: fixed;
+    right: 15px;
+    top: 20px;
+    z-index: 9;
+  }
+</style>
+<div id="message-container"></div>
 <div class="dashboard">
   <div class="dashboard-container">
     <img src="assets/img/user-prof-back.png" class="background-image" alt="Background" />
@@ -222,10 +247,10 @@ include "components/header_user.php";
 
                       <!-- Поле ввода и кнопка "Сохранить" (скрыты по умолчанию) -->
                       <input type="text" id="phone-input" value="<?= $phone ?>" style="display: none;">
-                      <button id="save-btn" style="display: none;" onclick="savePhone()">Сохранить</button>
+                      <button class="addd-btn" id="save-btn" style="display: none;" onclick="savePhone()">Сохранить</button>
 
                       <!-- Кнопка "Редактировать" -->
-                      <button id="edit-btn" onclick="editPhone()">Редактировать</button>
+                      <button class="edit" id="edit-btn" onclick="editPhone()">Редактировать</button>
                     </div>
                     <script src="assets/js/edit.js"></script>
                   </div>
@@ -353,7 +378,9 @@ include "components/header_user.php";
               <?php endif; ?>
               <!-- Блок с формой отзыва -->
               <div id="review-section" style="margin-top: 40px;">
-                <h3>Оставить отзыв о школе</h3>
+                <?php if (isset($_GET['review']) && $_GET['review'] === 'success'): ?>
+                  <h3>Оставить отзыв о школе</h3>
+                <?php endif; ?>
 
                 <?php if (!empty($error)): ?>
                   <div style="color: red; font-weight: bold; margin-bottom: 10px;">
@@ -363,9 +390,9 @@ include "components/header_user.php";
 
                 <?php if ($canLeaveReview): ?>
                   <?php if (isset($_GET['review']) && $_GET['review'] === 'success'): ?>
-                    <div id="review-success" class="popup-content" style="color: green; font-weight: bold; margin-bottom: 15px;">
+                    <!-- <div id="review-success" class="popup-content" style="color: green; font-weight: bold; margin-bottom: 15px;">
                       Спасибо за ваш отзыв! ❤️
-                    </div>
+                    </div> -->
                   <?php endif; ?>
 
                   <form id="review-form" method="POST" action="user_profile.php">
@@ -385,9 +412,9 @@ include "components/header_user.php";
                     <button type="submit" style="margin-top: 15px; padding: 10px 20px;">Отправить отзыв</button>
                   </form>
                 <?php endif; ?>
-                <p class="send-reviews" style="color: gray; font-style: italic; margin-top: 10px; display:none">
+                <!-- <p class="send-reviews" style="color: gray; font-style: italic; margin-top: 10px; display:none">
                   Спасибо за ваш отзыв
-                </p>
+                </p> -->
 
               </div>
             </div>
@@ -399,12 +426,6 @@ include "components/header_user.php";
 </div>
 </div>
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const isForm = document.querySelector('#review-form')
-    if (!isForm) {
-      document.querySelector('.send-reviews').style.display = 'block'
-    }
-  })
   document.getElementById('review-form').addEventListener('submit', function(event) {
     event.preventDefault(); // Предотвращаем стандартную отправку формы
 
@@ -421,8 +442,8 @@ include "components/header_user.php";
         // alert('Спасибо за ваш отзыв!');
         const isForm = document.querySelector('#review-form')
         isForm.remove()
-        document.querySelector('.send-reviews').style.display = 'block';
-
+        // document.querySelector('.send-reviews').style.display = 'block';
+        showMessage('success', 'Спасибо за ваш отзыв!');
         form.reset(); // очищаем форму
       })
       .catch(error => {
@@ -430,6 +451,19 @@ include "components/header_user.php";
         alert('Произошла ошибка. Попробуйте позже.');
       });
   });
+
+  function showMessage(type, message) {
+    const container = document.getElementById('message-container');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${type}`;
+    messageDiv.textContent = message;
+    container.appendChild(messageDiv);
+
+    // Удаляем сообщение через 5 секунд
+    setTimeout(() => {
+      messageDiv.remove();
+    }, 5000);
+  }
 </script>
 
 <?php

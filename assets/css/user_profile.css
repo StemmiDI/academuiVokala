@@ -321,6 +321,7 @@ main .user-card {
   margin-top: auto;
   margin-bottom: auto;
   flex-direction: column;
+  gap: 5px;
   align-self: stretch;
   align-items: start;
   font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
@@ -377,7 +378,20 @@ main .user-card {
     margin-right: 6px;
   }
 }
-
+.addd-btn {
+  background: #8aff8a;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.edit {
+  background: #ddd;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
 .time-column {
   align-self: end;
   display: flex;
