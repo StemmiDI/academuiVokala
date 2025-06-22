@@ -25,6 +25,7 @@ body {
 .registration-content {
   gap: 20px;
   display: flex;
+  margin-bottom: 20px;
 }
 
 .form-column {

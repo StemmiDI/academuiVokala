@@ -53,13 +53,15 @@ include "../components/header-outh.php"; ?>
                 <div id="editModal" class="modal">
                     <div class="modal-content">
                         <span class="close" onclick="closeModal()">&times;</span>
-                        <h2>Редактировать абонемент</h2>
-                        <input type="hidden" id="edit-id">
-                        <input type="text" id="edit-name" placeholder="Название">
-                        <input type="text" id="edit-level" placeholder="Уровень">
-                        <input type="number" id="edit-number_of_lesson" placeholder="Кол-во занятий">
-                        <input type="number" id="edit-price" placeholder="Цена">
-                        <button onclick="saveChanges()">Сохранить</button>
+                        <div class="modal-wrap">
+                            <h2>Редактировать абонемент</h2>
+                            <input type="hidden" id="edit-id">
+                            <input type="text" id="edit-name" placeholder="Название">
+                            <input type="text" id="edit-level" placeholder="Уровень">
+                            <input type="number" id="edit-number_of_lesson" placeholder="Кол-во занятий">
+                            <input type="number" id="edit-price" placeholder="Цена">
+                        </div>
+                        <button class="addd-btn" onclick="saveChanges()">Сохранить</button>
                     </div>
                 </div>
 

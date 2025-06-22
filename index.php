@@ -368,7 +368,9 @@ include "components/header_user.php";
     <div class="contacts-content">
       <h2 class="contacts-title">Контакты</h2>
       <div class="contacts-grid">
-        <div style="position:relative;overflow:hidden;"><a href="https://yandex.ru/maps/56/chelyabinsk/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:0px;">Челябинск</a><a href="https://yandex.ru/maps/56/chelyabinsk/house/ulitsa_yelkina_59/YkgYdQ5oQEIPQFtvfX10eXxiYQ==/?ll=61.399195%2C55.157914&utm_medium=mapframe&utm_source=maps&z=17.88" style="color:#eee;font-size:12px;position:absolute;top:14px;">Улица Елькина, 59 — Яндекс Карты</a><iframe src="https://yandex.ru/map-widget/v1/?ll=61.399195%2C55.157914&mode=search&ol=geo&ouri=ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgg1NjAyMzM1NhI_0KDQvtGB0YHQuNGPLCDQp9C10LvRj9Cx0LjQvdGB0LosINGD0LvQuNGG0LAg0JXQu9GM0LrQuNC90LAsIDU5IgoNj5h1QhXOoVxC&z=17.88" width="960" height="450" frameborder="1" allowfullscreen="true" style="position:relative;"></iframe></div>
+        <div>
+          <iframe src="https://yandex.ru/map-widget/v1/?ll=61.399195%2C55.157914&mode=search&ol=geo&ouri=ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgg1NjAyMzM1NhI_0KDQvtGB0YHQuNGPLCDQp9C10LvRj9Cx0LjQvdGB0LosINGD0LvQuNGG0LAg0JXQu9GM0LrQuNC90LAsIDU5IgoNj5h1QhXOoVxC&z=17.88" width="960" height="450" frameborder="1" allowfullscreen="true" style="position:relative;"></iframe>
+        </div>
         <div class="contacts-info">
           <h3 class="contacts-heading">Адрес</h3>
           <p class="contacts-text">г. Челябинск, ул. Елькина, д. 59</p>

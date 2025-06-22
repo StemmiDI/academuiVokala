@@ -179,20 +179,22 @@ $teachers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div id="teacherModal" class="modal">
                     <div class="modal-content">
                         <span class="close" onclick="closeTeacherModal()">&times;</span>
-                        <h2 id="modalTitle">Редактировать преподавателя</h2>
-                        <input type="hidden" id="teacherId">
-                        <input type="text" id="modalNameTeacher" placeholder="Имя" required>
-                        <input type="text" id="modalDescription" placeholder="Описание" required>
-                        <input type="text" id="modalPhoneNumber" placeholder="Телефон" required>
-                        <input type="email" id="modalEmail" placeholder="Почта" required>
-                        <input type="file" id="modalPhoto" placeholder="Выберите фото">
-                        <select id="modalCourseId">
-                            <option value="">Выберите курс</option>
-                            <?php foreach ($courses as $course): ?>
-                                <option value="<?php echo $course['id']; ?>"><?php echo $course['name_course']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                        <button type="button" onclick="saveTeacher()">Сохранить</button>
+                        <div class="modal-wrap">
+                            <h2 id="modalTitle">Редактировать преподавателя</h2>
+                            <input type="hidden" id="teacherId">
+                            <input type="text" id="modalNameTeacher" placeholder="Имя" required>
+                            <input type="text" id="modalDescription" placeholder="Описание" required>
+                            <input type="text" id="modalPhoneNumber" placeholder="Телефон" required>
+                            <input type="email" id="modalEmail" placeholder="Почта" required>
+                            <input type="file" id="modalPhoto" placeholder="Выберите фото">
+                            <select id="modalCourseId">
+                                <option value="">Выберите курс</option>
+                                <?php foreach ($courses as $course): ?>
+                                    <option value="<?php echo $course['id']; ?>"><?php echo $course['name_course']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <button class="addd-btn" type="button" onclick="saveTeacher()">Сохранить</button>
                     </div>
                 </div>
 

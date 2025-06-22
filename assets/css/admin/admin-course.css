@@ -27,7 +27,30 @@
   /* Полупрозрачный фон */
   padding-top: 60px;
 }
+.modal input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+.modal-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+.modal-wrap select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
 
+.addd-btn {
+  background: #8aff8a;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
 /* Модальное содержимое */
 .modal-content {
   background-color: #fefefe;
@@ -124,7 +147,11 @@ th {
   padding: 20px;
   border-radius: 10px;
 }
-
+.add-form select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
 .add-form h2 {
   margin-bottom: 10px;
 }
@@ -366,4 +393,7 @@ th {
   .form-input {
     margin-top: 32px;
   }
+}
+.table-wrap {
+  overflow: auto;
 }

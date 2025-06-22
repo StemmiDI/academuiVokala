@@ -66,12 +66,14 @@ $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <div id="editModal" class="modal">
         <div class="modal-content">
           <span class="close" onclick="closeModal()">&times;</span>
-          <h2>Редактировать курс</h2>
-          <input type="hidden" id="editCourseId">
-          <input type="text" id="editName" placeholder="Название курса" required>
-          <input type="text" id="editDescription" placeholder="Описание курса" required>
-          <input type="file" id="editFile" name="icon" accept="image/*">
-          <button onclick="editCourse()">Сохранить изменения</button>
+          <div class="modal-wrap">
+            <h2>Редактировать курс</h2>
+            <input type="hidden" id="editCourseId">
+            <input type="text" id="editName" placeholder="Название курса" required>
+            <input type="text" id="editDescription" placeholder="Описание курса" required>
+            <input type="file" id="editFile" name="icon" accept="image/*">
+          </div>
+          <button class="addd-btn" onclick="editCourse()">Сохранить изменения</button>
         </div>
       </div>
 

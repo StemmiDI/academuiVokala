@@ -121,6 +121,7 @@ $applications = $query->fetchAll();
         <div class="content-wrapper-card">
             <h1 class="pricing-title-ad-s">Управление заявками на бесплатное занятие</h1>
             <div class="container">
+
                 <table border="1">
                     <thead>
                         <tr>
@@ -167,37 +168,39 @@ $applications = $query->fetchAll();
                     </tbody>
                 </table>
 
+
                 <!-- Модальное окно для редактирования -->
                 <div id="editModal" class="modal">
                     <div class="modal-content">
                         <span class="close" onclick="closeModal()">&times;</span>
-                        <h2>Редактировать заявку</h2>
-                        <?php
-                        // Получаем все курсы из базы данных
-                        $query = $pdo->prepare("SELECT * FROM courses");
-                        $query->execute();
-                        $courses = $query->fetchAll();
-                        ?>
+                        <div class="modal-wrap">
+                            <h2>Редактировать заявку</h2>
+                            <?php
+                            // Получаем все курсы из базы данных
+                            $query = $pdo->prepare("SELECT * FROM courses");
+                            $query->execute();
+                            $courses = $query->fetchAll();
+                            ?>
 
-                        <form id="editForm">
-                            <input type="hidden" id="applicationId" name="id" value="">
+                            <form id="editForm">
+                                <input type="hidden" id="applicationId" name="id" value="">
 
-                            <label for="course_name">Курс:</label>
-                            <select id="course_name" name="course_name" required>
-                                <?php foreach ($courses as $course): ?>
-                                    <option value="<?php echo $course['id']; ?>">
-                                        <?php echo htmlspecialchars($course['name_course']); ?> <!-- Исправили на name_course -->
-                                    </option>
-                                <?php endforeach; ?>
-                            </select><br><br>
+                                <label for="course_name">Курс:</label>
+                                <select id="course_name" name="course_name" required>
+                                    <?php foreach ($courses as $course): ?>
+                                        <option value="<?php echo $course['id']; ?>">
+                                            <?php echo htmlspecialchars($course['name_course']); ?> <!-- Исправили на name_course -->
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select><br><br>
 
-                            <label for="course_date">Дата занятия:</label>
-                            <input type="date" id="course_date" name="course_date" required><br><br>
+                                <label for="course_date">Дата занятия:</label>
+                                <input type="date" id="course_date" name="course_date" required><br><br>
 
-                            <label for="lesson_time">Время занятия:</label>
-                            <input type="time" id="lesson_time" name="lesson_time" required><br><br>
-
-                            <button type="submit">Сохранить изменения</button>
+                                <label for="lesson_time">Время занятия:</label>
+                                <input type="time" id="lesson_time" name="lesson_time" required><br><br>
+                        </div>
+                        <button class="addd-btn" type="submit">Сохранить изменения</button>
                         </form>
                     </div>
                 </div>

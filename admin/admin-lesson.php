@@ -163,7 +163,7 @@ foreach ($subscriptions as $sub) {
         <img src="../uploads/фон.png" class="background-image" alt="Background image" />
         <div class="content-wrapper-card">
             <h1 class="pricing-title-ad-s">Купленные абонементы</h1>
-            <div class="container">
+            <div class="container" style="width: 100%;">
                 <div id="message-container"></div>
 
                 <div style="margin-bottom: 20px;">
@@ -174,56 +174,57 @@ foreach ($subscriptions as $sub) {
                         </button>
                     <?php endforeach; ?>
                 </div>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Имя пользователя</th>
-                            <th>Email</th>
-                            <th>Телефон</th>
-                            <th>Абонемент</th>
-                            <th>Курс</th>
-                            <th>Тип курса</th>
-                            <th>Всего занятий</th>
-                            <th>Осталось занятий</th>
-                            <th>Пройденные занятия</th>
-                            <th>Отметить занятие</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($subscriptions as $sub): ?>
-                            <tr data-type="<?php echo htmlspecialchars($sub['name_type_schedule']); ?>" data-id="<?php echo $sub['id']; ?>">
-                                <td><?php echo htmlspecialchars($sub['user_name'] ?? 'Не указано'); ?></td>
-                                <td><?php echo htmlspecialchars($sub['email'] ?? 'Не указано'); ?></td>
-                                <td><?php echo htmlspecialchars($sub['phone'] ?? 'Не указано'); ?></td>
-                                <td><?php echo htmlspecialchars($sub['subscription_name'] ?? 'Не указано'); ?></td>
-                                <td><?php echo htmlspecialchars($sub['name_course'] ?? 'Не указано'); ?></td>
-                                <td><?php echo htmlspecialchars($sub['name_type_schedule'] ?? 'Не указано'); ?></td>
-                                <td class="total-lessons"><?php echo htmlspecialchars($sub['number_of_lesson'] ?? 'Нет данных'); ?></td>
-                                <td class="remaining-lessons"><?php echo htmlspecialchars($sub['number_rem_classes'] ?? 'Нет данных'); ?></td>
-                                <td class="completed-lessons">
-                                    <?php
-                                    if (!empty($sub['completed_lessons'])) {
-                                        echo implode(', ', $sub['completed_lessons']);
-                                    } else {
-                                        echo 'Нет пройденных';
-                                    }
-                                    ?>
-                                </td>
-                                <td class="mark-cell">
-                                    <?php if (isset($sub['next_lesson'])): ?>
-                                        <div class="mark-form">
-                                            <span style="margin-right: 10px;">Занятие №<span class="next-lesson"><?php echo $sub['next_lesson']; ?></span></span>
-                                            <button type="button" onclick="markLesson(<?php echo $sub['id']; ?>)" class="mark-btn">Отметить</button>
-                                        </div>
-                                    <?php else: ?>
-                                        Все занятия пройдены
-                                    <?php endif; ?>
-                                </td>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Имя пользователя</th>
+                                <th>Email</th>
+                                <th>Телефон</th>
+                                <th>Абонемент</th>
+                                <th>Курс</th>
+                                <th>Тип курса</th>
+                                <th>Всего занятий</th>
+                                <th>Осталось занятий</th>
+                                <th>Пройденные занятия</th>
+                                <th>Отметить занятие</th>
                             </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($subscriptions as $sub): ?>
+                                <tr data-type="<?php echo htmlspecialchars($sub['name_type_schedule']); ?>" data-id="<?php echo $sub['id']; ?>">
+                                    <td><?php echo htmlspecialchars($sub['user_name'] ?? 'Не указано'); ?></td>
+                                    <td><?php echo htmlspecialchars($sub['email'] ?? 'Не указано'); ?></td>
+                                    <td><?php echo htmlspecialchars($sub['phone'] ?? 'Не указано'); ?></td>
+                                    <td><?php echo htmlspecialchars($sub['subscription_name'] ?? 'Не указано'); ?></td>
+                                    <td><?php echo htmlspecialchars($sub['name_course'] ?? 'Не указано'); ?></td>
+                                    <td><?php echo htmlspecialchars($sub['name_type_schedule'] ?? 'Не указано'); ?></td>
+                                    <td class="total-lessons"><?php echo htmlspecialchars($sub['number_of_lesson'] ?? 'Нет данных'); ?></td>
+                                    <td class="remaining-lessons"><?php echo htmlspecialchars($sub['number_rem_classes'] ?? 'Нет данных'); ?></td>
+                                    <td class="completed-lessons">
+                                        <?php
+                                        if (!empty($sub['completed_lessons'])) {
+                                            echo implode(', ', $sub['completed_lessons']);
+                                        } else {
+                                            echo 'Нет пройденных';
+                                        }
+                                        ?>
+                                    </td>
+                                    <td class="mark-cell">
+                                        <?php if (isset($sub['next_lesson'])): ?>
+                                            <div class="mark-form">
+                                                <span style="margin-right: 10px;">Занятие №<span class="next-lesson"><?php echo $sub['next_lesson']; ?></span></span>
+                                                <button type="button" onclick="markLesson(<?php echo $sub['id']; ?>)" class="mark-btn">Отметить</button>
+                                            </div>
+                                        <?php else: ?>
+                                            Все занятия пройдены
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

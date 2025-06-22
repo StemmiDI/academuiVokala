@@ -126,39 +126,41 @@ $type_schedules = $type_schedule_stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div id="scheduleModal" class="modal">
                     <div class="modal-content">
                         <span class="close" onclick="closeScheduleModal()">&times;</span>
-                        <h2 id="modalTitle">Редактировать расписание</h2>
-                        <input type="hidden" id="scheduleId">
-                        <select id="modalCourseId">
-                            <option value="">Выберите курс</option>
-                            <?php foreach ($courses as $course): ?>
-                                <option value="<?php echo $course['id']; ?>"><?php echo $course['name_course']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                        <select id="modalTypeScheduleId">
-                            <option value="">Выберите тип расписания</option>
-                            <?php foreach ($type_schedules as $type_schedule): ?>
-                                <option value="<?php echo $type_schedule['id']; ?>"><?php echo $type_schedule['name_type_schedule']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                        <select id="modalTeacherId">
-                            <option value="">Выберите преподавателя</option>
-                            <?php foreach ($teachers as $teacher): ?>
-                                <option value="<?php echo $teacher['id']; ?>"><?php echo $teacher['name_teacher']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                        <!-- <input type="text" id="modalDayOfWeek" placeholder="День недели"> -->
-                        <select id="modalDayOfWeek" required>
-                            <option value="">Выберите день недели</option>
-                            <option value="Понедельник">Понедельник</option>
-                            <option value="Вторник">Вторник</option>
-                            <option value="Среда">Среда</option>
-                            <option value="Четверг">Четверг</option>
-                            <option value="Пятница">Пятница</option>
-                            <option value="Суббота">Суббота</option>
-                            <option value="Воскресенье">Воскресенье</option>
-                        </select>
-                        <input type="time" id="modalTime" placeholder="Время">
-                        <button onclick="saveSchedule()">Сохранить</button>
+                        <div class="modal-wrap">
+                            <h2 id="modalTitle">Редактировать расписание</h2>
+                            <input type="hidden" id="scheduleId">
+                            <select id="modalCourseId">
+                                <option value="">Выберите курс</option>
+                                <?php foreach ($courses as $course): ?>
+                                    <option value="<?php echo $course['id']; ?>"><?php echo $course['name_course']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <select id="modalTypeScheduleId">
+                                <option value="">Выберите тип расписания</option>
+                                <?php foreach ($type_schedules as $type_schedule): ?>
+                                    <option value="<?php echo $type_schedule['id']; ?>"><?php echo $type_schedule['name_type_schedule']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <select id="modalTeacherId">
+                                <option value="">Выберите преподавателя</option>
+                                <?php foreach ($teachers as $teacher): ?>
+                                    <option value="<?php echo $teacher['id']; ?>"><?php echo $teacher['name_teacher']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <!-- <input type="text" id="modalDayOfWeek" placeholder="День недели"> -->
+                            <select id="modalDayOfWeek" required>
+                                <option value="">Выберите день недели</option>
+                                <option value="Понедельник">Понедельник</option>
+                                <option value="Вторник">Вторник</option>
+                                <option value="Среда">Среда</option>
+                                <option value="Четверг">Четверг</option>
+                                <option value="Пятница">Пятница</option>
+                                <option value="Суббота">Суббота</option>
+                                <option value="Воскресенье">Воскресенье</option>
+                            </select>
+                            <input type="time" id="modalTime" placeholder="Время">
+                        </div>
+                        <button class="addd-btn" onclick="saveSchedule()">Сохранить</button>
                     </div>
                 </div>
 

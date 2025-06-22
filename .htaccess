@@ -1,0 +1,18 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+    
+    # Главное правило: если файл или папка не существуют → 404.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ 404.php [L]
+</IfModule>
+
+# Запрет просмотра содержимого папок
+Options -Indexes
+
+# Блокировка доступа к служебным файлам
+<FilesMatch "\.(htaccess|htpasswd|ini|log|env|sql)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
